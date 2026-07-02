@@ -3,7 +3,7 @@ import "./Projects.css";
 import { useScrollStack } from "../hooks/useScrollStack";
 import { HIGHLIGHTED_LIMIT } from "../lib/projects";
 
-function StackCard({ project, index, onOpen }) {
+export function StackCard({ project, index, onOpen }) {
   const isLive = project.status === "live";
   return (
     <div

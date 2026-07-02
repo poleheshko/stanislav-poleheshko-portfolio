@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { createProject, fetchHighlightedCount, HIGHLIGHTED_LIMIT, updateProject } from "../../lib/projects";
 import { deleteProjectImage, uploadProjectImage } from "../../lib/storage";
-
-function splitCsv(str) {
-  return str
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
+import { splitCsv } from "../../lib/csv";
+import ProjectPreview from "./ProjectPreview.jsx";
 
 function computeInitialState(project) {
   const cs = project?.caseStudy || {};
@@ -237,7 +232,10 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
     }
   }
 
+  const previewImageUrl = imagePreview || (imageRemoved ? null : form.imageUrl);
+
   return (
+    <div className="admin-form-layout">
     <form className="admin-card admin-form" onSubmit={handleSubmit}>
       <h2>{project ? `Edit “${project.name}”` : "New project"}</h2>
 
@@ -448,5 +446,8 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
         </button>
       </div>
     </form>
+
+    <ProjectPreview form={form} imageUrl={previewImageUrl} />
+    </div>
   );
 }

@@ -127,7 +127,7 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      <main className="admin-main">
+      <main className={`admin-main${tab === "projects" && view === "form" ? " admin-main-wide" : ""}`}>
         {tab === "security" && <SecurityTab />}
 
         {tab === "projects" && view === "form" && (
