@@ -56,11 +56,13 @@ export default function ProjectPreview({ form, imageUrl }) {
   const isLive = project.status === "live";
 
   return (
-    <div className="admin-preview-col">
+    <div className="admin-preview-section">
       <div className="admin-preview-block">
         <div className="admin-preview-label">Live preview — homepage card</div>
-        <div className="admin-preview-dark">
-          <StackCard project={project} index={0} onOpen={() => {}} />
+        <div className="admin-preview-stage card">
+          <div className="admin-preview-dark">
+            <StackCard project={project} index={0} onOpen={() => {}} />
+          </div>
         </div>
         {!isLive && (
           <div className="admin-preview-note">
@@ -72,7 +74,7 @@ export default function ProjectPreview({ form, imageUrl }) {
 
       <div className="admin-preview-block">
         <div className="admin-preview-label">Live preview — case study page</div>
-        <div className="admin-preview-dark admin-preview-scroll">
+        <div className="admin-preview-stage cs">
           <div className="proj-modal cs-modal admin-preview-modal">
             <CaseStudyContent project={project} />
           </div>

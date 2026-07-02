@@ -382,27 +382,20 @@
 
 /* --- Live preview panel --- */
 .admin-main-wide {
-  max-width: 1360px;
+  max-width: 1280px;
 }
 .admin-form-layout {
   display: flex;
-  align-items: flex-start;
-  gap: 24px;
+  flex-direction: column;
+  gap: 32px;
 }
 .admin-form-layout .admin-form {
-  flex: 1 1 460px;
-  min-width: 0;
+  max-width: 900px;
 }
-.admin-preview-col {
-  flex: 1 1 420px;
-  min-width: 320px;
-  position: sticky;
-  top: 20px;
+.admin-preview-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  max-height: calc(100vh - 40px);
-  overflow-y: auto;
+  gap: 28px;
 }
 .admin-preview-label {
   font-size: 0.72rem;
@@ -416,44 +409,43 @@
   background: #fff;
   border: 1px solid #e2e4e8;
   border-radius: 10px;
-  padding: 16px;
+  padding: 20px;
+}
+/* Sized to match the real site containers (.wrap for the card, .proj-modal
+   for the case study) so the preview isn't shrunk to fit a sidebar. */
+.admin-preview-stage {
+  margin: 0 auto;
+}
+.admin-preview-stage.card {
+  width: min(1180px, 100%);
+}
+.admin-preview-stage.cs {
+  width: min(920px, 100%);
 }
 .admin-preview-dark {
   background: var(--black);
   color: var(--white);
   border-radius: 16px;
   padding: 24px;
+  overflow-x: auto;
 }
 .admin-preview-dark .scroll-stack-card {
   cursor: default;
 }
-.admin-preview-dark.admin-preview-scroll {
-  max-height: 640px;
-  overflow-y: auto;
-}
+/* The case study modal already carries its own real background/border/
+   radius/padding — reuse it as-is instead of re-framing it, so it matches
+   the real site exactly at its natural width. Only cancel the properties
+   that only make sense inside the overlay it's normally shown in. */
 .admin-preview-modal.proj-modal {
-  position: static;
+  color: var(--white);
   width: 100%;
   max-height: none;
-  padding: 0;
-  border: none;
   box-shadow: none;
   transform: none;
-  background: transparent;
 }
 .admin-preview-note {
   font-size: 0.78rem;
   color: #6b7280;
   margin-top: 10px;
   line-height: 1.4;
-}
-@media (max-width: 980px) {
-  .admin-form-layout {
-    flex-direction: column;
-  }
-  .admin-preview-col {
-    position: static;
-    max-height: none;
-    width: 100%;
-  }
 }
