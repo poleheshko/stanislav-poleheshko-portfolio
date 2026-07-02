@@ -1,0 +1,106 @@
+/* ============================== BUTTONS ============================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.85em 1.6em;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  color: #fff;
+  white-space: nowrap;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.35s ease;
+}
+.btn .dot {
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #fff;
+}
+/* gradient-border pill (dark interior) */
+.btn-ghost {
+  background: #07070b;
+  background-clip: padding-box;
+  box-shadow:
+    /* outer glow */
+    0 0 28px rgba(255, 94, 163, 0.38),
+    0 0 44px rgba(177, 92, 240, 0.28),
+    /* directional inner glow mimicking gradient bleed */ inset 10px 0
+      26px rgba(255, 94, 163, 0.28),
+    inset -10px 0 26px rgba(91, 139, 240, 0.22),
+    inset 0 0 18px rgba(177, 92, 240, 0.18);
+}
+.btn-ghost::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 5px;
+  background: var(--grad);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 0.25s ease;
+}
+.btn-ghost:hover {
+  background: var(--grad);
+  box-shadow:
+    0 0 40px rgba(177, 92, 240, 0.9),
+    0 0 20px rgba(255, 94, 163, 0.7),
+    0 10px 34px rgba(177, 92, 240, 0.5);
+  transform: translateY(-2px);
+}
+.btn-ghost:hover::before {
+  opacity: 0;
+}
+/* Figma-matched hero CTA: radial gradient + inside stroke */
+.btn-figma-cta {
+  background: radial-gradient(
+    circle farthest-corner at 10% 25%,
+    transparent 16%,
+    #e035c4 34%,
+    #9349e9 65%,
+    #e58f4b 88%
+  );
+  box-shadow: inset 0 0 0 1.5px #6b5daf;
+}
+.btn-figma-cta::before {
+  display: none;
+}
+.btn-figma-cta:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px #6b5daf,
+    0 8px 28px rgba(147, 73, 233, 0.55),
+    0 4px 14px rgba(224, 53, 196, 0.4);
+}
+/* solid glowing gradient pill (hero) */
+.btn-grad {
+  background: var(--grad);
+  box-shadow:
+    0 8px 26px rgba(177, 92, 240, 0.5),
+    0 2px 8px rgba(255, 94, 163, 0.4);
+}
+.btn-grad:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(177, 92, 240, 0.65);
+}
+.btn-dark {
+  background: #0c0c0f;
+  border: 1px solid var(--line-strong);
+}
+.btn-dark:hover {
+  border-color: var(--g2);
+  box-shadow: 0 8px 24px rgba(177, 92, 240, 0.3);
+  transform: translateY(-2px);
+}

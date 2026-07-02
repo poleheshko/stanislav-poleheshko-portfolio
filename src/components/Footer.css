@@ -1,0 +1,65 @@
+/* ============================== FOOTER ============================== */
+footer {
+  background: var(--black);
+  padding: 70px 0 40px;
+  border-radius: 42px 42px 0 0;
+  margin-top: -30px;
+  position: relative;
+  z-index: 7;
+}
+.foot-top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 30px;
+  padding-bottom: 30px;
+}
+.foot-big {
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  line-height: 0.92;
+  color: transparent;
+  -webkit-text-stroke: 1.6px rgba(255, 255, 255, 0.55);
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+.foot-col h4 {
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.foot-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.foot-col li {
+  font-size: 0.86rem;
+  color: #d2d2d8;
+}
+.foot-col a:hover {
+  color: #fff;
+}
+.icon-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 34px 0 22px;
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+}
+.geo {
+  width: 42px;
+  height: 42px;
+}
+.foot-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}

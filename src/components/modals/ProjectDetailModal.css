@@ -1,0 +1,231 @@
+.proj-modal-overlay.cs-overlay {
+  z-index: 410;
+}
+
+/* --- Case study modal --- */
+.cs-gallery {
+  margin-bottom: 24px;
+}
+.cs-shot {
+  position: relative;
+  height: clamp(180px, 30vw, 300px);
+  border-radius: 18px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--card-2) 0px,
+    var(--card-2) 14px,
+    #101014 14px,
+    #101014 28px
+  );
+}
+.cs-shot span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+.cs-shot-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(20, 20, 24, 0.85);
+  border: 1px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.cs-shot-nav:hover {
+  border-color: var(--g2);
+}
+.cs-shot-nav.prev {
+  left: 14px;
+}
+.cs-shot-nav.next {
+  right: 14px;
+}
+.cs-shot-counter {
+  text-align: center;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.cs-thumbs {
+  display: flex;
+  gap: 8px;
+}
+.cs-thumb {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 56px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--card-2) 0px,
+    var(--card-2) 10px,
+    #101014 10px,
+    #101014 20px
+  );
+  border: 2px solid transparent;
+  opacity: 0.55;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s;
+}
+.cs-thumb.active {
+  border-color: var(--g2);
+  opacity: 1;
+}
+.cs-thumb span {
+  font-size: 0.56rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.2;
+}
+.cs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.cs-chip {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: #cfcfd6;
+}
+.cs-chip.role {
+  background: rgba(177, 92, 240, 0.16);
+  border-color: rgba(177, 92, 240, 0.45);
+  color: #e7d8ff;
+}
+.cs-section {
+  margin-top: 30px;
+}
+.cs-section .h {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.cs-section p {
+  color: #cfcfd6;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+.cs-role-grid {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  row-gap: 10px;
+  column-gap: 16px;
+}
+.cs-role-grid .k {
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.cs-role-grid .v {
+  font-size: 0.86rem;
+  color: #e9e9ef;
+}
+.cs-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cs-stat {
+  flex: 1;
+  min-width: 150px;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+}
+.cs-stat .val {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.7rem;
+  color: var(--muted-light);
+}
+.cs-stat .lbl {
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+.cs-stat .hint {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.cs-testimonial {
+  border-radius: 18px;
+  padding: 24px 26px;
+  background: rgba(177, 92, 240, 0.1);
+  border: 1px solid rgba(177, 92, 240, 0.25);
+}
+.cs-testimonial .quote-mark {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 2rem;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 4px;
+}
+.cs-testimonial p {
+  font-style: italic;
+  color: #e9e9ef;
+  font-size: 0.92rem;
+}
+.cs-testimonial .by {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+@media (max-width: 640px) {
+  .cs-role-grid {
+    grid-template-columns: 110px 1fr;
+  }
+}

@@ -1,0 +1,340 @@
+/* ============================== PROJECTS ============================== */
+.projects {
+  background: var(--black);
+  padding: 110px 0 120px;
+}
+.projects-status {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 60px 0;
+}
+.projects h2 {
+  font-size: clamp(2.8rem, 11vw, 8.5rem);
+  text-align: center;
+  margin-bottom: 46px;
+}
+.proj-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.proj {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+  overflow: hidden;
+  transition:
+    border-color 0.35s,
+    box-shadow 0.35s;
+}
+.proj:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+}
+.proj-head {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 26px 28px;
+  cursor: pointer;
+}
+.proj-head .pnum {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.9rem;
+  transform: scaleX(1.05);
+  min-width: 44px;
+}
+.proj-head .pinfo {
+  flex: 1;
+}
+.proj-head .pinfo .lbl {
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.proj-head .pinfo .nm {
+  font-size: 1.18rem;
+  font-weight: 800;
+  margin-top: 3px;
+}
+.proj-media {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.proj.open .proj-media {
+  max-height: 420px;
+}
+.proj.open .proj-head .pnum {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.proj-media-inner {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 14px;
+  padding: 4px 20px 24px;
+}
+.proj-img {
+  height: 230px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Lenis smooth scroll (required rules) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* --- ScrollStack (adapted from React Bits) --- */
+.scroll-stack {
+  position: relative;
+  padding-top: 8vh;
+}
+.scroll-stack-card {
+  position: relative;
+  /* mirrors the component's 20rem card height so more of the stack
+     stays visible while pinned */
+  height: min(50vh, 380px);
+  border-radius: 32px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  transform-origin: top center;
+  backface-visibility: hidden;
+  will-change: transform, filter;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+.scroll-stack-card:hover {
+  border-color: var(--line-strong);
+}
+.scroll-stack-card.is-soon {
+  cursor: default;
+}
+.ss-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+.ss-split {
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+.ss-left {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 3vw, 36px);
+}
+.ss-right {
+  flex: 0 0 38%;
+  min-width: 200px;
+  border-left: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ss-right.live {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--card-2) 0px,
+    var(--card-2) 12px,
+    #101014 12px,
+    #101014 24px
+  );
+}
+.ss-right.soon {
+  background: var(--card-2);
+}
+.ss-right span {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+.ss-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ss-num {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.5rem;
+  color: var(--muted);
+  transform: scaleX(1.05);
+  transform-origin: left;
+}
+.ss-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.5em 1.1em;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.ss-badge.live {
+  background: rgba(177, 92, 240, 0.16);
+  border: 1px solid rgba(177, 92, 240, 0.45);
+  color: #e7d8ff;
+}
+.ss-badge.soon {
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+}
+.ss-meta {
+  margin-top: clamp(18px, 3vw, 28px);
+}
+.ss-meta .nm {
+  font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+.ss-meta .tl {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+.ss-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.ss-tag {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #cfcfd6;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+.ss-divider {
+  height: 1px;
+  background: var(--line);
+  margin: clamp(16px, 3vw, 24px) 0 clamp(14px, 2vw, 20px);
+}
+.ss-foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+}
+.ss-metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  background: var(--black);
+  color: #fff;
+  padding: 0.7em 1.1em;
+  border-radius: 999px;
+}
+.ss-metric .val {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.3rem;
+}
+.ss-metric .lbl {
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.82;
+  white-space: nowrap;
+}
+.ss-cta {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.ss-cta.live-cta {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ss-cta.soon-cta {
+  color: var(--muted);
+  margin-top: auto;
+}
+@media (max-width: 640px) {
+  .ss-split {
+    flex-direction: column;
+  }
+  .ss-right {
+    flex: 0 0 96px;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+  .ss-foot-row {
+    flex-wrap: wrap;
+  }
+}
+.scroll-stack-card.ss-viewall .ss-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(22px, 3vw, 34px) clamp(24px, 4vw, 40px);
+}
+.ss-viewall-count {
+  font-family: "Archivo Black", sans-serif;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ss-viewall-label {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-top: 6px;
+  font-weight: 600;
+}
+.ss-viewall-link {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 16px;
+  color: #fff;
+}
+.ss-viewall-link .arrow {
+  margin-left: 0.35em;
+}
+.scroll-stack-end {
+  width: 100%;
+  /* scroll room so the last card can pin and release cleanly */
+  height: 22vh;
+}

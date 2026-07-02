@@ -1,0 +1,133 @@
+/* ============================== CONTACT ============================== */
+.contact {
+  background: var(--light);
+  color: var(--ink);
+  padding: 96px 0 120px;
+  border-radius: 42px 42px 0 0;
+  margin-top: -30px;
+  position: relative;
+  z-index: 6;
+  overflow: hidden;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 56px;
+  align-items: start;
+}
+.contact h2 {
+  font-size: clamp(2.6rem, 8vw, 6rem);
+  line-height: 0.95;
+  margin-bottom: 22px;
+}
+.contact .mail {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1f;
+  border-bottom: 2px solid #1a1a1f;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.form .full {
+  grid-column: 1/-1;
+}
+.field label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #3a3a40;
+  margin-bottom: 7px;
+}
+.field input,
+.field textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid #c6c4be;
+  padding: 8px 2px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #16161a;
+  transition: border-color 0.3s;
+}
+.field textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #9046e8;
+}
+.form .send {
+  grid-column: 1/-1;
+  justify-self: stretch;
+}
+.send-btn {
+  width: 100%;
+  justify-content: center;
+  background: #fff;
+  color: #15151a;
+  border: 1.5px solid #d8d6d0;
+}
+.send-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: var(--grad);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(177, 92, 240, 0.3);
+}
+.send-btn.sent {
+  background: var(--grad);
+  color: #fff;
+}
+.c-obj {
+  position: absolute;
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.22));
+  z-index: 1;
+  animation: floaty 7s ease-in-out infinite;
+}
+.c-obj svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.c-bolt {
+  right: 3%;
+  top: 6%;
+  width: 120px;
+  animation-duration: 6s;
+  transform: rotate(8deg);
+}
+.c-knot {
+  left: 1%;
+  top: 42%;
+  width: 130px;
+  animation-duration: 8s;
+  animation-delay: -1.5s;
+}
+@media (max-width: 860px) {
+  .c-obj {
+    width: 74px !important;
+  }
+  .c-knot {
+    top: auto;
+    bottom: 4%;
+  }
+}
