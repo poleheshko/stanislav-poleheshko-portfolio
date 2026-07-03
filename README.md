@@ -69,10 +69,11 @@ Marking a project "Live" requires filling in its case-study fields (tagline, tag
 summary, problem, approach, role tag, tech tags) — this is what's rendered in the project's detail
 popup, so an incomplete "Live" project would otherwise show blank sections.
 
-Each project can hold up to **10 images** (Edit project → Images). They're all displayed at a
-16:9 (1920×1080) ratio. Use ◀ ▶ to set the order they appear in the case-study popup gallery, and
-★ to pick the single "main" image shown on the homepage card. Removing an image also deletes it
-from Storage when you save.
+Each project can hold up to **10 images** (Edit project → Images). Use ◀ ▶ to set the order they
+appear in the case-study popup gallery, and ★ to pick the single "main" image shown on the
+homepage card. The main image fills the full height of the card's image panel; the popup gallery
+shows every image at a 16:9 (1920×1080) ratio. Removing an image also deletes it from Storage when
+you save.
 
 ## Deploying
 

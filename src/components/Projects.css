@@ -155,19 +155,14 @@ html.lenis body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(14px, 2vw, 22px);
-  box-sizing: border-box;
 }
-/* The card image is shown at a fixed 16:9 ratio (1920×1080), centered in the
-   panel; cover keeps a non-16:9 upload from distorting. */
+/* The card image fills the full height and width of the right panel; cover
+   keeps a non-16:9 upload from distorting (it's center-cropped instead). */
 .ss-shot {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 100%;
-  border-radius: 12px;
+  height: 100%;
   background-size: cover;
   background-position: center;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 .ss-right.live {
   background: repeating-linear-gradient(
@@ -308,14 +303,6 @@ html.lenis body {
     flex: 0 0 96px;
     border-left: none;
     border-top: 1px solid var(--line);
-    padding: 10px 14px;
-  }
-  /* Not enough room for a full 16:9 box in the stacked layout — fill the
-     short strip with a cover crop instead. */
-  .ss-shot {
-    aspect-ratio: auto;
-    height: 100%;
-    max-height: none;
   }
   .ss-foot-row {
     flex-wrap: wrap;
