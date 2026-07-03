@@ -142,15 +142,18 @@ html.lenis body {
   align-items: stretch;
 }
 .ss-left {
-  flex: 1 1 460px;
+  flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
   padding: clamp(22px, 3vw, 36px);
 }
+/* Image column is a full-height 16:9 (1920×1080) rectangle; its width is
+   derived from the card height, and .ss-left takes whatever's left. */
 .ss-right {
-  flex: 0 0 38%;
-  min-width: 200px;
+  flex: 0 0 auto;
+  height: 100%;
+  aspect-ratio: 16 / 9;
   border-left: 1px solid var(--line);
   display: flex;
   align-items: center;
@@ -295,14 +298,25 @@ html.lenis body {
   color: var(--muted);
   margin-top: auto;
 }
-@media (max-width: 640px) {
+/* Below this width a full-height 16:9 image would crush the text column, so
+   stack the card: full-width 16:9 image banner on top, text below. The card
+   height becomes content-driven (the scroll-stack reads each card's live
+   offsetTop, so uneven heights are fine). */
+@media (max-width: 1080px) {
+  .scroll-stack-card {
+    height: auto;
+  }
   .ss-split {
     flex-direction: column;
   }
   .ss-right {
-    flex: 0 0 96px;
+    order: -1;
+    flex: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
     border-left: none;
-    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
   .ss-foot-row {
     flex-wrap: wrap;

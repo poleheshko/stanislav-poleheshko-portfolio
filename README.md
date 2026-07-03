@@ -71,9 +71,10 @@ popup, so an incomplete "Live" project would otherwise show blank sections.
 
 Each project can hold up to **10 images** (Edit project → Images). Use ◀ ▶ to set the order they
 appear in the case-study popup gallery, and ★ to pick the single "main" image shown on the
-homepage card. The main image fills the full height of the card's image panel; the popup gallery
-shows every image at a 16:9 (1920×1080) ratio. Removing an image also deletes it from Storage when
-you save.
+homepage card. Every image is shown at a **16:9 (1920×1080)** ratio — the main image as a
+full-height column beside the card text (a full-width banner on top when the card stacks on
+narrower screens), and all images in the case-study popup gallery. Removing an image also deletes
+it from Storage when you save.
 
 ## Deploying
 
