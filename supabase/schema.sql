@@ -29,6 +29,7 @@ create table if not exists public.projects (
   metric_lbl text,
   image_url text,
   image_path text,
+  images jsonb not null default '[]'::jsonb,
   project_url text,
   case_study jsonb,
   highlighted boolean not null default false,
@@ -38,6 +39,9 @@ create table if not exists public.projects (
 
 comment on column public.projects.case_study is
   'Structured long-form content for the detail popup: {eyebrow, title, summary, shots: string[], roleTag, techTags: string[], problem, role: [[key,value],...], approach, results: [{val,lbl}], testimonial: {quote,by}}';
+
+comment on column public.projects.images is
+  'Ordered gallery: [{url, path, main}]. Array order = gallery order in the popup; the element with "main": true is the homepage card image. image_url/image_path mirror the main image for backward compatibility.';
 
 -- Seed data — ports the 4 projects that currently live in src/data/projects.js
 -- so the homepage looks byte-identical the moment it switches over to Supabase.

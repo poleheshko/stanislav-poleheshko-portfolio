@@ -22,9 +22,16 @@ export async function uploadProjectImage(file) {
 // action that triggered it.
 export async function deleteProjectImage(path) {
   if (!path) return;
+  await deleteProjectImages([path]);
+}
+
+// Batch variant for projects that carry a gallery of images.
+export async function deleteProjectImages(paths) {
+  const clean = (paths || []).filter(Boolean);
+  if (clean.length === 0) return;
   try {
-    await withTimeout(supabase.storage.from(BUCKET).remove([path]));
+    await withTimeout(supabase.storage.from(BUCKET).remove(clean));
   } catch (err) {
-    console.warn("Failed to remove old project image:", err);
+    console.warn("Failed to remove old project image(s):", err);
   }
 }

@@ -46,6 +46,14 @@ order** — the RLS policies need your admin user's UUID, so the user must exist
    scan a QR code with an authenticator app (Google Authenticator, 1Password, Authy, etc.). Once
    verified, every future login will require a code from that app in addition to the password.
 
+### Already set up before "multiple images"?
+
+If your `projects` table was created before per-project image galleries existed, run
+`supabase/add_project_images.sql` once in the SQL Editor. It adds the `images` column (and
+backfills any existing single image). **Without it, saving a project from the admin panel will
+fail** with a "column images does not exist" error. Fresh installs from `schema.sql` already
+include this column and don't need the migration.
+
 ## Admin panel
 
 - `/admin/login` — sign in (email + password, plus a TOTP code if 2FA is enabled)
@@ -60,6 +68,11 @@ stack.
 Marking a project "Live" requires filling in its case-study fields (tagline, tags, metric,
 summary, problem, approach, role tag, tech tags) — this is what's rendered in the project's detail
 popup, so an incomplete "Live" project would otherwise show blank sections.
+
+Each project can hold up to **10 images** (Edit project → Images). They're all displayed at a
+16:9 (1920×1080) ratio. Use ◀ ▶ to set the order they appear in the case-study popup gallery, and
+★ to pick the single "main" image shown on the homepage card. Removing an image also deletes it
+from Storage when you save.
 
 ## Deploying
 

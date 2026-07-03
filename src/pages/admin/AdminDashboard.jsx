@@ -9,7 +9,7 @@ import {
   swapSortOrder,
   updateProject,
 } from "../../lib/projects";
-import { deleteProjectImage } from "../../lib/storage";
+import { deleteProjectImages } from "../../lib/storage";
 import { signOut } from "../../lib/auth";
 import ProjectForm from "./ProjectForm.jsx";
 import SecurityTab from "./SecurityTab.jsx";
@@ -86,7 +86,8 @@ export default function AdminDashboard() {
     setDeleteBusy(true);
     try {
       await deleteProject(deleteTarget.id);
-      if (deleteTarget.imagePath) await deleteProjectImage(deleteTarget.imagePath);
+      const paths = (deleteTarget.images || []).map((im) => im.path).filter(Boolean);
+      await deleteProjectImages(paths);
       setDeleteTarget(null);
       reload();
     } catch (err) {

@@ -16,7 +16,9 @@ const PLACEHOLDER = {
   roleTag: "Role tag",
 };
 
-function buildPreviewProject(form, imageUrl) {
+function buildPreviewProject(form, images) {
+  const gallery = (images || []).filter((im) => im.url);
+  const mainUrl = (gallery.find((im) => im.main) || gallery[0])?.url || null;
   const tags = splitCsv(form.tags);
   const techTags = splitCsv(form.techTags);
   const roleRows = form.roleRows.filter((r) => r.key.trim() || r.value.trim());
@@ -34,7 +36,8 @@ function buildPreviewProject(form, imageUrl) {
       val: form.metricVal.trim() || PLACEHOLDER.metricVal,
       lbl: form.metricLbl.trim() || PLACEHOLDER.metricLbl,
     },
-    imageUrl: imageUrl || null,
+    imageUrl: mainUrl,
+    images: gallery,
     caseStudy: {
       eyebrow: form.eyebrow.trim() || PLACEHOLDER.eyebrow,
       title: form.csTitle.trim() || form.name.trim() || PLACEHOLDER.csTitle,
@@ -51,8 +54,8 @@ function buildPreviewProject(form, imageUrl) {
   };
 }
 
-export default function ProjectPreview({ form, imageUrl }) {
-  const project = buildPreviewProject(form, imageUrl);
+export default function ProjectPreview({ form, images }) {
+  const project = buildPreviewProject(form, images);
   const isLive = project.status === "live";
 
   return (

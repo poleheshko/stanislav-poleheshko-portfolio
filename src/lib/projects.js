@@ -8,6 +8,15 @@ export const HIGHLIGHTED_LIMIT = 4;
 // field so a partially-filled row degrades gracefully instead of crashing.
 export function mapRowToProject(row) {
   const cs = row.case_study;
+
+  // Ordered gallery. Prefer the new `images` column; fall back to the legacy
+  // single image so rows created before the multi-image feature still render.
+  let images = Array.isArray(row.images) ? row.images.filter((im) => im && im.url) : [];
+  if (images.length === 0 && row.image_url) {
+    images = [{ url: row.image_url, path: row.image_path ?? null, main: true }];
+  }
+  const mainImage = images.find((im) => im.main) || images[0] || null;
+
   return {
     id: row.id,
     status: row.status,
@@ -16,8 +25,9 @@ export function mapRowToProject(row) {
     teamBadge: row.team_badge ?? "",
     tags: row.tags ?? [],
     metric: { val: row.metric_val ?? "—", lbl: row.metric_lbl ?? "" },
-    imageUrl: row.image_url ?? null,
-    imagePath: row.image_path ?? null,
+    images,
+    imageUrl: mainImage?.url ?? null,
+    imagePath: mainImage?.path ?? null,
     projectUrl: row.project_url ?? null,
     highlighted: !!row.highlighted,
     sortOrder: row.sort_order ?? 0,

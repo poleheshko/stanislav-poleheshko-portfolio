@@ -8,13 +8,18 @@
 }
 .cs-shot {
   position: relative;
-  height: clamp(180px, 30vw, 300px);
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 18px;
   margin-bottom: 12px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: repeating-linear-gradient(
+  background-size: cover;
+  background-position: center;
+  background-color: var(--card-2);
+  background-image: repeating-linear-gradient(
     135deg,
     var(--card-2) 0px,
     var(--card-2) 14px,
@@ -32,6 +37,13 @@
   padding: 8px 16px;
   border-radius: 8px;
   text-align: center;
+}
+.cs-shot-caption {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  max-width: calc(100% - 28px);
+  z-index: 1;
 }
 .cs-shot-nav {
   position: absolute;
@@ -73,21 +85,25 @@
   margin-bottom: 10px;
 }
 .cs-thumbs {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
   gap: 8px;
 }
 .cs-thumb {
-  flex: 1 1 0;
   min-width: 0;
-  height: 56px;
+  aspect-ratio: 16 / 9;
   border-radius: 10px;
   cursor: pointer;
   box-sizing: border-box;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px;
-  background: repeating-linear-gradient(
+  background-size: cover;
+  background-position: center;
+  background-color: var(--card-2);
+  background-image: repeating-linear-gradient(
     135deg,
     var(--card-2) 0px,
     var(--card-2) 10px,
@@ -99,6 +115,10 @@
   transition:
     opacity 0.2s,
     border-color 0.2s;
+}
+/* An image thumbnail overrides the placeholder stripes with the real photo. */
+.cs-thumb.has-img {
+  background-image: none;
 }
 .cs-thumb.active {
   border-color: var(--g2);

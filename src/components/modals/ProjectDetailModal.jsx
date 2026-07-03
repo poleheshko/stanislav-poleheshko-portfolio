@@ -7,16 +7,27 @@ export function CaseStudyContent({ project }) {
   const [shotIndex, setShotIndex] = useState(0);
 
   const cs = project.caseStudy || {};
-  const shots = cs.shots || [];
+  const captions = cs.shots || [];
   const role = cs.role || [];
   const techTags = cs.techTags || [];
   const results = cs.results || [];
   const testimonial = cs.testimonial || { quote: "", by: "" };
-  const hasMultiple = shots.length > 1;
-  const activeIndex = shots.length ? shotIndex % shots.length : 0;
-  const shotLabel = shots.length
-    ? shots[activeIndex]
-    : `product preview — ${project.name.toLowerCase()} ui`;
+
+  // The gallery is driven by real uploaded images when the project has any.
+  // Projects created before images existed fall back to the caption-only
+  // placeholder slides, so nothing breaks.
+  const gallery = project.images?.length
+    ? project.images
+    : project.imageUrl
+      ? [{ url: project.imageUrl }]
+      : [];
+  const hasImages = gallery.length > 0;
+  const slideCount = hasImages ? gallery.length : captions.length;
+  const hasMultiple = slideCount > 1;
+  const activeIndex = slideCount ? shotIndex % slideCount : 0;
+  const activeImage = hasImages ? gallery[activeIndex] : null;
+  const activeCaption =
+    captions[activeIndex] || (hasImages ? "" : `product preview — ${project.name.toLowerCase()} ui`);
 
   return (
     <>
@@ -24,9 +35,9 @@ export function CaseStudyContent({ project }) {
         <div
           className="cs-shot"
           style={
-            project.imageUrl
+            activeImage
               ? {
-                  backgroundImage: `url(${project.imageUrl})`,
+                  backgroundImage: `url(${activeImage.url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }
@@ -38,36 +49,43 @@ export function CaseStudyContent({ project }) {
               <div
                 className="cs-shot-nav prev"
                 onClick={() =>
-                  setShotIndex((i) => (i - 1 + shots.length) % shots.length)
+                  setShotIndex((i) => (i - 1 + slideCount) % slideCount)
                 }
               >
                 ‹
               </div>
               <div
                 className="cs-shot-nav next"
-                onClick={() => setShotIndex((i) => (i + 1) % shots.length)}
+                onClick={() => setShotIndex((i) => (i + 1) % slideCount)}
               >
                 ›
               </div>
             </>
           )}
-          {!project.imageUrl && <span>{shotLabel}</span>}
+          {!activeImage && <span>{activeCaption}</span>}
+          {activeImage && activeCaption && (
+            <span className="cs-shot-caption">{activeCaption}</span>
+          )}
         </div>
         {hasMultiple && (
           <>
             <div className="cs-shot-counter">
-              {activeIndex + 1} / {shots.length}
+              {activeIndex + 1} / {slideCount}
             </div>
             <div className="cs-thumbs">
-              {shots.map((s, i) => (
-                <div
-                  key={i}
-                  className={`cs-thumb${i === activeIndex ? " active" : ""}`}
-                  onClick={() => setShotIndex(i)}
-                >
-                  <span>{s}</span>
-                </div>
-              ))}
+              {(hasImages ? gallery : captions).map((item, i) => {
+                const url = hasImages ? gallery[i].url : null;
+                return (
+                  <div
+                    key={i}
+                    className={`cs-thumb${i === activeIndex ? " active" : ""}${url ? " has-img" : ""}`}
+                    style={url ? { backgroundImage: `url(${url})` } : undefined}
+                    onClick={() => setShotIndex(i)}
+                  >
+                    {!url && <span>{captions[i]}</span>}
+                  </div>
+                );
+              })}
             </div>
           </>
         )}

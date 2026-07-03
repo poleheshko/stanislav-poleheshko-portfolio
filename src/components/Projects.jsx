@@ -49,15 +49,10 @@ export function StackCard({ project, index, onOpen }) {
               <span className="ss-cta soon-cta">Coming soon</span>
             )}
           </div>
-          <div
-            className={`ss-right ${isLive ? "live" : "soon"}`}
-            style={
-              project.imageUrl
-                ? { backgroundImage: `url(${project.imageUrl})`, backgroundSize: "cover", backgroundPosition: "center" }
-                : undefined
-            }
-          >
-            {!project.imageUrl && (
+          <div className={`ss-right ${isLive ? "live" : "soon"}`}>
+            {project.imageUrl ? (
+              <div className="ss-shot" style={{ backgroundImage: `url(${project.imageUrl})` }} />
+            ) : (
               <span>
                 {isLive ? "product preview — emily ui" : "case study in progress"}
               </span>
