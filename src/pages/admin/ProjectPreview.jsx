@@ -16,7 +16,7 @@ const PLACEHOLDER = {
   roleTag: "Role tag",
 };
 
-function buildPreviewProject(form, images) {
+function buildPreviewProject(form, images, employer) {
   const gallery = (images || []).filter((im) => im.url);
   const mainUrl = (gallery.find((im) => im.main) || gallery[0])?.url || null;
   const tags = splitCsv(form.tags);
@@ -38,6 +38,7 @@ function buildPreviewProject(form, images) {
     },
     imageUrl: mainUrl,
     images: gallery,
+    employer: employer || null,
     caseStudy: {
       eyebrow: form.eyebrow.trim() || PLACEHOLDER.eyebrow,
       title: form.csTitle.trim() || form.name.trim() || PLACEHOLDER.csTitle,
@@ -54,8 +55,8 @@ function buildPreviewProject(form, images) {
   };
 }
 
-export default function ProjectPreview({ form, images }) {
-  const project = buildPreviewProject(form, images);
+export default function ProjectPreview({ form, images, employer }) {
+  const project = buildPreviewProject(form, images, employer);
   const isLive = project.status === "live";
 
   return (

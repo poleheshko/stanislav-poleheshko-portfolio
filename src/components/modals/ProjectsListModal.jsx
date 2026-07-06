@@ -28,8 +28,11 @@ function MiniCard({ project, index, onOpen }) {
               </span>
             ))}
           </div>
-          <div className="ss-cta live-cta" style={{ marginTop: "16px" }}>
-            View case study →
+          <div className="proj-mini-foot">
+            <span className="ss-cta live-cta">View case study →</span>
+            {project.employer?.logoUrl && (
+              <img className="proj-mini-employer-mark" src={project.employer.logoUrl} alt="" />
+            )}
           </div>
         </>
       )}

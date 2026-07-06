@@ -63,9 +63,6 @@ export function CaseStudyContent({ project }) {
             </>
           )}
           {!activeImage && <span>{activeCaption}</span>}
-          {activeImage && activeCaption && (
-            <span className="cs-shot-caption">{activeCaption}</span>
-          )}
         </div>
         {hasMultiple && (
           <>
@@ -90,7 +87,19 @@ export function CaseStudyContent({ project }) {
           </>
         )}
       </div>
-      <div className="eyebrow grad">{cs.eyebrow}</div>
+      <div className="cs-eyebrow-row">
+        <span className="eyebrow grad">{cs.eyebrow}</span>
+        {project.employer && (
+          <span className="cs-eyebrow-employer">
+            <span className="cs-eyebrow-dot">·</span>
+            {project.employer.logoUrl ? (
+              <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} />
+            ) : (
+              project.employer.name
+            )}
+          </span>
+        )}
+      </div>
       <h1 className="title">{cs.title}</h1>
       <p className="subtitle">{cs.summary}</p>
       <div className="cs-chips">

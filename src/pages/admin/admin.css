@@ -418,6 +418,34 @@
   }
 }
 
+/* --- Employers --- */
+/* Logos are contained (not cropped) on a checkered-ish light tile, since brand
+   logos often have transparent padding and shouldn't be cover-cropped. */
+.admin-employer-thumb {
+  background: #fff;
+  border: 1px solid #e2e4e8;
+}
+.admin-employer-thumb img {
+  object-fit: contain;
+  padding: 4px;
+  box-sizing: border-box;
+}
+.admin-employer-logo-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.admin-employer-logo-preview img {
+  height: 56px;
+  max-width: 200px;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid #e2e4e8;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
 /* --- Live preview panel --- */
 .admin-main-wide {
   max-width: 1280px;

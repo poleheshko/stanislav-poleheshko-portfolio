@@ -18,6 +18,16 @@
 -- PART 1 — table + seed data (run first, no edits needed)
 -- ============================================================================
 
+-- Employers / clients a project can be attributed to. One row per company,
+-- reused across projects. Created before `projects` so the FK below resolves.
+create table if not exists public.employers (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  logo_url text,
+  logo_path text,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
   status text not null default 'soon' check (status in ('live', 'soon')),
@@ -34,6 +44,9 @@ create table if not exists public.projects (
   case_study jsonb,
   highlighted boolean not null default false,
   sort_order integer not null default 0,
+  -- The company/client this project was built for. `on delete set null` un-links
+  -- projects if their employer is deleted, rather than blocking or cascading.
+  employer_id uuid references public.employers(id) on delete set null,
   created_at timestamptz not null default now()
 );
 
@@ -94,12 +107,36 @@ values
 -- ============================================================================
 
 alter table public.projects enable row level security;
+alter table public.employers enable row level security;
 
 -- Public read — the homepage fetches projects with the anon key, no session.
 create policy "Public can read projects"
   on public.projects for select
   to anon, authenticated
   using (true);
+
+-- Employers are read by the public homepage (joined into projects) and written
+-- only by the admin — same policy shape as projects.
+create policy "Public can read employers"
+  on public.employers for select
+  to anon, authenticated
+  using (true);
+
+create policy "Admin can insert employers"
+  on public.employers for insert
+  to authenticated
+  with check (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
+
+create policy "Admin can update employers"
+  on public.employers for update
+  to authenticated
+  using (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid)
+  with check (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
+
+create policy "Admin can delete employers"
+  on public.employers for delete
+  to authenticated
+  using (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
 
 -- Writes are restricted to exactly your admin user, not "any authenticated
 -- user" — so a stray future account in auth.users can never modify data.

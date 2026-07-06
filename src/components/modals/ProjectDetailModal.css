@@ -133,6 +133,36 @@
   text-align: center;
   line-height: 1.2;
 }
+/* Eyebrow row: "CASE STUDY · [logo] Employer Name", inline and discreet —
+   the employer part is muted, not gradient, so it stays secondary to the
+   eyebrow label. */
+.cs-eyebrow-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cs-eyebrow-employer {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--muted);
+}
+.cs-eyebrow-dot {
+  color: var(--muted);
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+.cs-eyebrow-logo {
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+}
 .cs-chips {
   display: flex;
   flex-wrap: wrap;

@@ -12,13 +12,14 @@ import {
 import { deleteProjectImages } from "../../lib/storage";
 import { signOut } from "../../lib/auth";
 import ProjectForm from "./ProjectForm.jsx";
+import EmployersTab from "./EmployersTab.jsx";
 import SecurityTab from "./SecurityTab.jsx";
 import ConfirmModal from "./ConfirmModal.jsx";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const { projects, loading, error, reload } = useProjects();
-  const [tab, setTab] = useState("projects"); // "projects" | "security"
+  const [tab, setTab] = useState("projects"); // "projects" | "employers" | "security"
   const [view, setView] = useState("list"); // "list" | "form"
   const [editingProject, setEditingProject] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -121,6 +122,12 @@ export default function AdminDashboard() {
           Projects
         </button>
         <button
+          className={`admin-tab${tab === "employers" ? " active" : ""}`}
+          onClick={() => setTab("employers")}
+        >
+          Employers
+        </button>
+        <button
           className={`admin-tab${tab === "security" ? " active" : ""}`}
           onClick={() => setTab("security")}
         >
@@ -130,6 +137,8 @@ export default function AdminDashboard() {
 
       <main className={`admin-main${tab === "projects" && view === "form" ? " admin-main-wide" : ""}`}>
         {tab === "security" && <SecurityTab />}
+
+        {tab === "employers" && <EmployersTab />}
 
         {tab === "projects" && view === "form" && (
           <ProjectForm

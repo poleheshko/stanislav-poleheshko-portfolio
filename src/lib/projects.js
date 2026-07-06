@@ -3,6 +3,10 @@ import { withTimeout } from "./withTimeout";
 
 export const HIGHLIGHTED_LIMIT = 4;
 
+// Every read/write pulls the linked employer alongside the project row so the
+// homepage card chip and case-study logo have it without a second query.
+const PROJECT_SELECT = "*, employer:employers(id, name, logo_url, logo_path)";
+
 // Converts a Supabase row (snake_case + jsonb) into the exact camelCase shape
 // the existing homepage components already expect. Defaults every optional
 // field so a partially-filled row degrades gracefully instead of crashing.
@@ -31,6 +35,14 @@ export function mapRowToProject(row) {
     projectUrl: row.project_url ?? null,
     highlighted: !!row.highlighted,
     sortOrder: row.sort_order ?? 0,
+    employer: row.employer
+      ? {
+          id: row.employer.id,
+          name: row.employer.name,
+          logoUrl: row.employer.logo_url ?? null,
+          logoPath: row.employer.logo_path ?? null,
+        }
+      : null,
     caseStudy: cs
       ? {
           eyebrow: cs.eyebrow ?? "Case Study",
@@ -50,9 +62,18 @@ export function mapRowToProject(row) {
 }
 
 export async function fetchProjects() {
-  const { data, error } = await withTimeout(
-    supabase.from("projects").select("*").order("sort_order", { ascending: true }),
+  let { data, error } = await withTimeout(
+    supabase.from("projects").select(PROJECT_SELECT).order("sort_order", { ascending: true }),
   );
+  // Fall back to a plain select if the employers relation isn't there yet (i.e.
+  // the code shipped before add_employers.sql was run) so the public homepage
+  // keeps loading instead of failing the whole query. mapRowToProject treats a
+  // missing `employer` as null.
+  if (error) {
+    ({ data, error } = await withTimeout(
+      supabase.from("projects").select("*").order("sort_order", { ascending: true }),
+    ));
+  }
   if (error) throw error;
   return data.map(mapRowToProject);
 }
@@ -66,13 +87,17 @@ export async function fetchHighlightedCount() {
 }
 
 export async function createProject(row) {
-  const { data, error } = await withTimeout(supabase.from("projects").insert(row).select().single());
+  const { data, error } = await withTimeout(
+    supabase.from("projects").insert(row).select(PROJECT_SELECT).single(),
+  );
   if (error) throw error;
   return mapRowToProject(data);
 }
 
 export async function updateProject(id, row) {
-  const { data, error } = await withTimeout(supabase.from("projects").update(row).eq("id", id).select().single());
+  const { data, error } = await withTimeout(
+    supabase.from("projects").update(row).eq("id", id).select(PROJECT_SELECT).single(),
+  );
   if (error) throw error;
   return mapRowToProject(data);
 }

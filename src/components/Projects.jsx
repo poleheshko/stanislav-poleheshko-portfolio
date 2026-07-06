@@ -24,7 +24,7 @@ export function StackCard({ project, index, onOpen }) {
               <div className="tl">
                 {isLive ? project.tagline : "Case study in progress"}
               </div>
-              {isLive && (
+              {isLive && project.tags.length > 0 && (
                 <div className="ss-tags">
                   {project.tags.map((t) => (
                     <span className="ss-tag" key={t}>
@@ -56,6 +56,11 @@ export function StackCard({ project, index, onOpen }) {
               <span>
                 {isLive ? "product preview — emily ui" : "case study in progress"}
               </span>
+            )}
+            {isLive && project.employer?.logoUrl && (
+              <div className="ss-shot-employer-badge">
+                <img src={project.employer.logoUrl} alt={project.employer.name} />
+              </div>
             )}
           </div>
         </div>

@@ -5,10 +5,31 @@
   margin-top: 32px;
 }
 .proj-mini {
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
   padding: 24px;
   border: 1px solid var(--line);
   background: var(--card);
+}
+/* Pinned to the card bottom regardless of description/tag length, so every
+   card's CTA (and logomark, when present) lines up across the grid row. */
+.proj-mini-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+/* Client logomark — a subtle signal, kept quiet enough not to compete with
+   the pink CTA link. Only shown for projects with a real external client. */
+.proj-mini-employer-mark {
+  max-height: 48px;
+  width: 48px;
+  object-fit: contain;
+  opacity: 0.8;
+  flex: 0 0 auto;
 }
 .proj-mini.soon {
   border-style: dashed;

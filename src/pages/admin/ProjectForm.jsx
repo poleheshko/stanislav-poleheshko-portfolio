@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { createProject, fetchHighlightedCount, HIGHLIGHTED_LIMIT, updateProject } from "../../lib/projects";
+import { fetchEmployers } from "../../lib/employers";
 import { deleteProjectImages, uploadProjectImage } from "../../lib/storage";
 import { splitCsv } from "../../lib/csv";
 import ProjectPreview from "./ProjectPreview.jsx";
@@ -28,6 +29,7 @@ function computeInitialState(project) {
     metricVal: project?.metric?.val && project.metric.val !== "—" ? project.metric.val : "",
     metricLbl: project?.metric?.lbl || "",
     projectUrl: project?.projectUrl || "",
+    employerId: project?.employer?.id || "",
     highlighted: !!project?.highlighted,
     eyebrow: cs.eyebrow || "Case Study",
     csTitle: cs.title || "",
@@ -97,6 +99,13 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
   const [images, setImages] = useState(() => initialImages(project));
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [employers, setEmployers] = useState([]);
+
+  // Load the employer list for the dropdown. On failure it stays empty — the
+  // rest of the form still works, you just can't attribute a client.
+  useEffect(() => {
+    fetchEmployers().then(setEmployers).catch(() => setEmployers([]));
+  }, []);
 
   // Revoke object URLs on unmount. A ref keeps this reading the latest list
   // without re-registering the cleanup on every gallery edit.
@@ -260,6 +269,7 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
         image_path: mainImage?.path ?? null,
         images: finalImages,
         project_url: form.projectUrl.trim() || null,
+        employer_id: form.employerId || null,
         highlighted: form.highlighted,
         case_study: buildCaseStudy(form, techTagsArr),
       };
@@ -287,6 +297,7 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
   }
 
   const previewImages = images.map((im) => ({ url: im.previewUrl || im.url, main: !!im.main }));
+  const selectedEmployer = employers.find((e) => e.id === form.employerId) || null;
 
   return (
     <div className="admin-form-layout">
@@ -312,6 +323,17 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
         <label className="admin-field">
           <span>Team badge</span>
           <input placeholder="e.g. Solo · PM & Dev" {...field("teamBadge")} />
+        </label>
+        <label className="admin-field">
+          <span>Employer / client</span>
+          <select {...field("employerId")}>
+            <option value="">— None —</option>
+            {employers.map((emp) => (
+              <option key={emp.id} value={emp.id}>
+                {emp.name}
+              </option>
+            ))}
+          </select>
         </label>
         <label className="admin-field">
           <span>Tags (comma separated)</span>
@@ -553,7 +575,7 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
       </div>
     </form>
 
-    <ProjectPreview form={form} images={previewImages} />
+    <ProjectPreview form={form} images={previewImages} employer={selectedEmployer} />
     </div>
   );
 }

@@ -151,6 +151,7 @@ html.lenis body {
 /* Image column is a full-height 16:9 (1920×1080) rectangle; its width is
    derived from the card height, and .ss-left takes whatever's left. */
 .ss-right {
+  position: relative;
   flex: 0 0 auto;
   height: 100%;
   aspect-ratio: 16 / 9;
@@ -166,6 +167,29 @@ html.lenis body {
   height: 100%;
   background-size: cover;
   background-position: center;
+}
+/* Client logo ribbon, flush against the image panel's top-right corner — a
+   folded-tag shape (square on top/right, rounded only on the open corner).
+   The light background keeps both dark and transparent-canvas logo files
+   legible. */
+.ss-shot-employer-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  background: #141418;
+  padding: 16px;
+  border-radius: 0 0 0 26px;
+  box-shadow: -3px 3px 10px #00141418;
+  pointer-events: none;
+}
+.ss-shot-employer-badge img {
+  display: block;
+  max-height: 26px;
+  max-width: 90px;
+  width: auto;
+  object-fit: contain;
 }
 .ss-right.live {
   background: repeating-linear-gradient(
@@ -199,7 +223,7 @@ html.lenis body {
 .ss-num {
   font-family: "Archivo Black", sans-serif;
   font-size: 1.5rem;
-  color: var(--muted);
+  color: #5c5c66;
   transform: scaleX(1.05);
   transform-origin: left;
 }
