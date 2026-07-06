@@ -9,6 +9,7 @@ export function mapRowToEmployer(row) {
     name: row.name,
     logoUrl: row.logo_url ?? null,
     logoPath: row.logo_path ?? null,
+    websiteUrl: row.website_url ?? null,
   };
 }
 

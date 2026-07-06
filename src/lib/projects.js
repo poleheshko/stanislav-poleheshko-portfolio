@@ -1,11 +1,9 @@
 import { supabase } from "./supabaseClient";
 import { withTimeout } from "./withTimeout";
 
-export const HIGHLIGHTED_LIMIT = 4;
-
 // Every read/write pulls the linked employer alongside the project row so the
 // homepage card chip and case-study logo have it without a second query.
-const PROJECT_SELECT = "*, employer:employers(id, name, logo_url, logo_path)";
+const PROJECT_SELECT = "*, employer:employers(id, name, logo_url, logo_path, website_url)";
 
 // Converts a Supabase row (snake_case + jsonb) into the exact camelCase shape
 // the existing homepage components already expect. Defaults every optional
@@ -41,6 +39,7 @@ export function mapRowToProject(row) {
           name: row.employer.name,
           logoUrl: row.employer.logo_url ?? null,
           logoPath: row.employer.logo_path ?? null,
+          websiteUrl: row.employer.website_url ?? null,
         }
       : null,
     caseStudy: cs

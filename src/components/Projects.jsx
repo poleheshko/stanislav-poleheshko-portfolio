@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import "./Projects.css";
 import { useScrollStack } from "../hooks/useScrollStack";
-import { HIGHLIGHTED_LIMIT } from "../lib/projects";
 
 export function StackCard({ project, index, onOpen }) {
   const isLive = project.status === "live";
@@ -14,7 +13,7 @@ export function StackCard({ project, index, onOpen }) {
         <div className="ss-split">
           <div className="ss-left">
             <div className="ss-top">
-              <div className="ss-num">0{index + 1}</div>
+              <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
               <div className={`ss-badge ${isLive ? "live" : "soon"}`}>
                 {isLive ? project.teamBadge : "Coming Soon"}
               </div>
@@ -91,7 +90,7 @@ function ViewAllCard({ hiddenCount, onOpen }) {
 
 export default function Projects({ projects, loading, error, onOpenCaseStudy, onOpenAllProjects }) {
   const stackRef = useRef(null);
-  const visibleProjects = projects.filter((p) => p.highlighted).slice(0, HIGHLIGHTED_LIMIT);
+  const visibleProjects = projects.filter((p) => p.highlighted);
   const hiddenCount = Math.max(0, projects.length - visibleProjects.length);
   useScrollStack(stackRef, !loading);
 

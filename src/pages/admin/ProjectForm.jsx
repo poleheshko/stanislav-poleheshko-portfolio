@@ -392,7 +392,7 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
           checked={form.highlighted}
           onChange={(e) => setForm((f) => ({ ...f, highlighted: e.target.checked }))}
         />
-        <span>Highlighted (only the first 4, by order, appear in the homepage stack)</span>
+        <span>Highlighted (shown in the homepage stack)</span>
       </label>
 
       <details className="admin-details" open={form.status === "live"}>

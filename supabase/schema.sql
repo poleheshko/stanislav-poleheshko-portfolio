@@ -25,6 +25,7 @@ create table if not exists public.employers (
   name text not null,
   logo_url text,
   logo_path text,
+  website_url text,
   created_at timestamptz not null default now()
 );
 

@@ -11,10 +11,8 @@
 --   - The SQL Editor runs with full DB privileges, so Row Level Security
 --     (which normally restricts writes to the admin's logged-in session)
 --     does NOT block this — no login/auth needed to run it here.
---   - `highlighted = true` puts the project in one of the 4 homepage
---     feature slots. The admin UI enforces a max of 4; direct SQL does not
---     — check the current count first if setting this to true:
---       select count(*) from public.projects where highlighted = true;
+--   - `highlighted = true` shows the project in the homepage stack. Any
+--     number of projects can be highlighted at once.
 --   - Images are left out on purpose — upload them through the admin panel
 --     (Edit project → Images) after this insert, since they need to go through
 --     Supabase Storage. You can add up to 10, reorder them, and pick which one
@@ -62,6 +60,6 @@ values (
       "by": "Name, Role"
     }
   }$json$::jsonb,
-  false,                                        -- true = show in the 4 homepage feature slots (see note above)
+  false,                                        -- true = show in the homepage stack (see note above)
   99                                             -- sort order; use a high number to place it last, then reorder in admin UI
 );

@@ -93,7 +93,27 @@ export function CaseStudyContent({ project }) {
           <span className="cs-eyebrow-employer">
             <span className="cs-eyebrow-dot">·</span>
             {project.employer.logoUrl ? (
-              <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} />
+              project.employer.websiteUrl ? (
+                <a
+                  href={project.employer.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} />
+                </a>
+              ) : (
+                <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} />
+              )
+            ) : project.employer.websiteUrl ? (
+              <a
+                href={project.employer.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {project.employer.name}
+              </a>
             ) : (
               project.employer.name
             )}

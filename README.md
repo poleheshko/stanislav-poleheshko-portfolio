@@ -59,11 +59,9 @@ include this column and don't need the migration.
 - `/admin/login` — sign in (email + password, plus a TOTP code if 2FA is enabled)
 - `/admin/dashboard` — manage projects (add/edit/delete/reorder/highlight) and 2FA, once signed in
 
-Exactly 4 projects can be marked "Highlighted" at a time — those are the ones shown in the
-homepage's project stack. Trying to highlight a 5th is blocked with a message asking you to
-un-highlight one first. Projects can be reordered with the ↑/↓ buttons; the order also controls
-the "All Projects" popup's ordering and, among highlighted projects, their order in the homepage
-stack.
+Any number of projects can be marked "Highlighted" — all of them show in the homepage's project
+stack. Projects can be reordered with the ↑/↓ buttons; the order also controls the "All Projects"
+popup's ordering and, among highlighted projects, their order in the homepage stack.
 
 Marking a project "Live" requires filling in its case-study fields (tagline, tags, metric,
 summary, problem, approach, role tag, tech tags) — this is what's rendered in the project's detail

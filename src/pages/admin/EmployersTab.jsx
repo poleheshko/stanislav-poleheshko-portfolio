@@ -12,6 +12,7 @@ export default function EmployersTab() {
   const [view, setView] = useState("list"); // "list" | "form"
   const [editing, setEditing] = useState(null); // employer being edited, or null for new
   const [name, setName] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
   // Saved logos carry {url, path}; a freshly picked one carries {file, previewUrl}.
   const [logo, setLogo] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -47,6 +48,7 @@ export default function EmployersTab() {
   function openNew() {
     setEditing(null);
     setName("");
+    setWebsiteUrl("");
     setLogo(null);
     setError("");
     setView("form");
@@ -55,6 +57,7 @@ export default function EmployersTab() {
   function openEdit(employer) {
     setEditing(employer);
     setName(employer.name);
+    setWebsiteUrl(employer.websiteUrl || "");
     setLogo(employer.logoUrl ? { url: employer.logoUrl, path: employer.logoPath } : null);
     setError("");
     setView("form");
@@ -94,7 +97,12 @@ export default function EmployersTab() {
         logoPath = uploaded.path;
       }
 
-      const row = { name: name.trim(), logo_url: logoUrl, logo_path: logoPath };
+      const row = {
+        name: name.trim(),
+        logo_url: logoUrl,
+        logo_path: logoPath,
+        website_url: websiteUrl.trim() || null,
+      };
       if (editing) {
         await updateEmployer(editing.id, row);
         // Clean up the replaced/removed logo (best-effort).
@@ -139,6 +147,16 @@ export default function EmployersTab() {
         <label className="admin-field">
           <span>Name *</span>
           <input required value={name} onChange={(e) => setName(e.target.value)} placeholder="Reality Games" />
+        </label>
+
+        <label className="admin-field">
+          <span>Website URL</span>
+          <input
+            type="url"
+            value={websiteUrl}
+            onChange={(e) => setWebsiteUrl(e.target.value)}
+            placeholder="https://example.com"
+          />
         </label>
 
         <div className="admin-field">

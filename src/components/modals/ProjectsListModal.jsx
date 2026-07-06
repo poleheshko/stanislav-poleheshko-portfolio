@@ -10,7 +10,7 @@ function MiniCard({ project, index, onOpen }) {
       onClick={isLive ? () => onOpen(project) : undefined}
     >
       <div className="ss-top">
-        <div className="ss-num">0{index + 1}</div>
+        <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
         <div className={`ss-badge ${isLive ? "live" : "soon"}`}>
           {isLive ? "Live" : "Coming Soon"}
         </div>
