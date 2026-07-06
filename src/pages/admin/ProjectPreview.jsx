@@ -5,7 +5,7 @@ import { splitCsv } from "../../lib/csv";
 const PLACEHOLDER = {
   name: "Project name",
   tagline: "Your tagline will appear here",
-  teamBadge: "Team badge",
+  teamBadge: "Your role",
   metricVal: "−40%",
   metricLbl: "metric label",
   eyebrow: "Case Study",

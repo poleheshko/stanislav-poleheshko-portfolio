@@ -227,6 +227,18 @@ html.lenis body {
   transform: scaleX(1.05);
   transform-origin: left;
 }
+.ss-role {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ss-role-label {
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 .ss-badge {
   font-size: 0.62rem;
   font-weight: 800;

@@ -81,7 +81,7 @@ function buildCaseStudy(form, techTagsArr) {
 function validateLive(form, tagsArr, techTagsArr) {
   const missing = [];
   if (!form.tagline.trim()) missing.push("tagline");
-  if (!form.teamBadge.trim()) missing.push("team badge");
+  if (!form.teamBadge.trim()) missing.push("role");
   if (tagsArr.length === 0) missing.push("at least one tag");
   if (!form.metricVal.trim() || !form.metricLbl.trim()) missing.push("metric value & label");
   if (!form.summary.trim()) missing.push("case study summary");
@@ -289,8 +289,10 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
           <input {...field("tagline")} />
         </label>
         <label className="admin-field">
-          <span>Team badge</span>
-          <input placeholder="e.g. Solo · PM & Dev" {...field("teamBadge")} />
+          <span>
+            Role <small>shown as the “Role” badge on the homepage &amp; All projects</small>
+          </span>
+          <input placeholder="e.g. AI Agent Architect & Developer" {...field("teamBadge")} />
         </label>
         <label className="admin-field">
           <span>Employer / client</span>
@@ -408,7 +410,9 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
             <input placeholder={form.name || "Defaults to the project name"} {...field("csTitle")} />
           </label>
           <label className="admin-field">
-            <span>Role tag</span>
+            <span>
+              Role tag <small>the “Role” badge on the case-study page</small>
+            </span>
             <input placeholder="Product Manager / Developer" {...field("roleTag")} />
           </label>
           <label className="admin-field">

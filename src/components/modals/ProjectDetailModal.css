@@ -163,6 +163,22 @@
   width: auto;
   object-fit: contain;
 }
+.cs-role-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+.cs-role-line-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 800;
+}
+.cs-role-line + .cs-chips {
+  margin-top: 12px;
+}
 .cs-chips {
   display: flex;
   flex-wrap: wrap;
