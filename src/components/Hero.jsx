@@ -55,7 +55,11 @@ export default function Hero() {
             className="char"
             ref={charRef}
             src="/ProfileImageCircle1000x.png"
-            alt="Profile photo"
+            alt="Stan Poleheshko"
+            width="1000"
+            height="1000"
+            decoding="async"
+            fetchPriority="high"
           />
         </div>
         <div className="hero-row">

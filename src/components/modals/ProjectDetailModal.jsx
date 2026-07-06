@@ -100,10 +100,10 @@ export function CaseStudyContent({ project }) {
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} />
+                  <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} loading="lazy" decoding="async" />
                 </a>
               ) : (
-                <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} />
+                <img className="cs-eyebrow-logo" src={project.employer.logoUrl} alt={project.employer.name} loading="lazy" decoding="async" />
               )
             ) : project.employer.websiteUrl ? (
               <a
@@ -122,8 +122,13 @@ export function CaseStudyContent({ project }) {
       </div>
       <h1 className="title">{cs.title}</h1>
       <p className="subtitle">{cs.summary}</p>
+      {cs.roleTag && (
+        <div className="cs-role-line">
+          <span className="cs-role-line-label">Role</span>
+          <span className="cs-chip role">{cs.roleTag}</span>
+        </div>
+      )}
       <div className="cs-chips">
-        <span className="cs-chip role">{cs.roleTag}</span>
         {techTags.map((t) => (
           <span className="cs-chip" key={t}>
             {t}

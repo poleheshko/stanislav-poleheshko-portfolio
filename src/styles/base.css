@@ -33,6 +33,17 @@
 html {
   scroll-behavior: smooth;
 }
+/* Fallback shown while a code-split route (the admin panel) loads. */
+.route-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: var(--muted);
+  background: var(--black);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
 body {
   font-family:
     "Inter",

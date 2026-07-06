@@ -14,9 +14,14 @@ export function StackCard({ project, index, onOpen }) {
           <div className="ss-left">
             <div className="ss-top">
               <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
-              <div className={`ss-badge ${isLive ? "live" : "soon"}`}>
-                {isLive ? project.teamBadge : "Coming Soon"}
-              </div>
+              {isLive ? (
+                <div className="ss-role">
+                  <span className="ss-role-label">Role</span>
+                  <div className="ss-badge live">{project.teamBadge}</div>
+                </div>
+              ) : (
+                <div className="ss-badge soon">Coming Soon</div>
+              )}
             </div>
             <div className="ss-meta">
               <div className="nm">{project.name}</div>
@@ -58,7 +63,7 @@ export function StackCard({ project, index, onOpen }) {
             )}
             {isLive && project.employer?.logoUrl && (
               <div className="ss-shot-employer-badge">
-                <img src={project.employer.logoUrl} alt={project.employer.name} />
+                <img src={project.employer.logoUrl} alt={project.employer.name} loading="lazy" decoding="async" />
               </div>
             )}
           </div>

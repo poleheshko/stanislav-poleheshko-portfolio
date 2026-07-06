@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./ProjectModal.css";
 import "./ProjectsListModal.css";
 
@@ -19,6 +20,12 @@ function MiniCard({ project, index, onOpen }) {
       <div className="tl">
         {isLive ? project.tagline : "Case study in progress"}
       </div>
+      {isLive && project.teamBadge && (
+        <div className="ss-role proj-mini-role">
+          <span className="ss-role-label">Role</span>
+          <span className="ss-badge live">{project.teamBadge}</span>
+        </div>
+      )}
       {isLive && (
         <>
           <div className="ss-tags">
@@ -31,7 +38,13 @@ function MiniCard({ project, index, onOpen }) {
           <div className="proj-mini-foot">
             <span className="ss-cta live-cta">View case study →</span>
             {project.employer?.logoUrl && (
-              <img className="proj-mini-employer-mark" src={project.employer.logoUrl} alt="" />
+              <img
+                className="proj-mini-employer-mark"
+                src={project.employer.logoUrl}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
             )}
           </div>
         </>
@@ -41,6 +54,15 @@ function MiniCard({ project, index, onOpen }) {
 }
 
 export default function ProjectsListModal({ open, onClose, onOpenCaseStudy, projects }) {
+  // The overlay stays in the DOM (visibility:hidden) so it can fade in/out, but
+  // browsers still fetch images inside a merely-hidden element. Defer building
+  // the card grid — and therefore its employer-logo requests — until the modal
+  // is opened for the first time, so it costs nothing on the initial page load.
+  const [everOpened, setEverOpened] = useState(false);
+  useEffect(() => {
+    if (open) setEverOpened(true);
+  }, [open]);
+
   return (
     <div
       className={`proj-modal-overlay${open ? " open" : ""}`}
@@ -52,21 +74,25 @@ export default function ProjectsListModal({ open, onClose, onOpenCaseStudy, proj
         <div className="proj-modal-close" onClick={onClose}>
           ×
         </div>
-        <div className="eyebrow grad">Portfolio</div>
-        <h2 className="title">All Projects</h2>
-        <div className="subtitle">
-          {projects.length} project{projects.length === 1 ? "" : "s"} total
-        </div>
-        <div className="proj-grid">
-          {projects.map((p, i) => (
-            <MiniCard
-              key={p.id}
-              project={p}
-              index={i}
-              onOpen={onOpenCaseStudy}
-            />
-          ))}
-        </div>
+        {everOpened && (
+          <>
+            <div className="eyebrow grad">Portfolio</div>
+            <h2 className="title">All Projects</h2>
+            <div className="subtitle">
+              {projects.length} project{projects.length === 1 ? "" : "s"} total
+            </div>
+            <div className="proj-grid">
+              {projects.map((p, i) => (
+                <MiniCard
+                  key={p.id}
+                  project={p}
+                  index={i}
+                  onOpen={onOpenCaseStudy}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
