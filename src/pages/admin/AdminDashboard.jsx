@@ -2,13 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./admin.css";
 import { useProjects } from "../../hooks/useProjects";
-import {
-  deleteProject,
-  fetchHighlightedCount,
-  HIGHLIGHTED_LIMIT,
-  swapSortOrder,
-  updateProject,
-} from "../../lib/projects";
+import { deleteProject, swapSortOrder, updateProject } from "../../lib/projects";
 import { deleteProjectImages } from "../../lib/storage";
 import { signOut } from "../../lib/auth";
 import ProjectForm from "./ProjectForm.jsx";
@@ -49,20 +43,6 @@ export default function AdminDashboard() {
 
   async function toggleHighlighted(project) {
     setActionError("");
-    if (!project.highlighted) {
-      try {
-        const count = await fetchHighlightedCount();
-        if (count >= HIGHLIGHTED_LIMIT) {
-          setActionError(
-            `You already have ${HIGHLIGHTED_LIMIT} highlighted projects. Un-highlight one first before adding another.`,
-          );
-          return;
-        }
-      } catch (err) {
-        setActionError(err.message || "Could not check the highlighted count.");
-        return;
-      }
-    }
     try {
       await updateProject(project.id, { highlighted: !project.highlighted });
       reload();
@@ -153,9 +133,7 @@ export default function AdminDashboard() {
         {tab === "projects" && view === "list" && (
           <>
             <div className="admin-list-head">
-              <div>
-                {projects.filter((p) => p.highlighted).length} / {HIGHLIGHTED_LIMIT} highlighted
-              </div>
+              <div>{projects.filter((p) => p.highlighted).length} highlighted</div>
               <button className="admin-btn admin-btn-primary" onClick={openNewForm}>
                 + New project
               </button>

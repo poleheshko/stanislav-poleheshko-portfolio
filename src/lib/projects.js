@@ -78,14 +78,6 @@ export async function fetchProjects() {
   return data.map(mapRowToProject);
 }
 
-export async function fetchHighlightedCount() {
-  const { count, error } = await withTimeout(
-    supabase.from("projects").select("id", { count: "exact", head: true }).eq("highlighted", true),
-  );
-  if (error) throw error;
-  return count ?? 0;
-}
-
 export async function createProject(row) {
   const { data, error } = await withTimeout(
     supabase.from("projects").insert(row).select(PROJECT_SELECT).single(),

@@ -186,8 +186,8 @@ html.lenis body {
 }
 .ss-shot-employer-badge img {
   display: block;
-  max-height: 26px;
-  max-width: 90px;
+  max-height: 40px;
+  max-width: 120px;
   width: auto;
   object-fit: contain;
 }

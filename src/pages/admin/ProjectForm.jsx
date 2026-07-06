@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createProject, fetchHighlightedCount, HIGHLIGHTED_LIMIT, updateProject } from "../../lib/projects";
+import { createProject, updateProject } from "../../lib/projects";
 import { fetchEmployers } from "../../lib/employers";
 import { deleteProjectImages, uploadProjectImage } from "../../lib/storage";
 import { splitCsv } from "../../lib/csv";
@@ -190,25 +190,6 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
     setForm((f) => ({ ...f, shots: f.shots.map((s, i) => (i === index ? value : s)) }));
   }
 
-  async function handleHighlightToggle(checked) {
-    setError("");
-    if (checked && !project?.highlighted) {
-      try {
-        const count = await fetchHighlightedCount();
-        if (count >= HIGHLIGHTED_LIMIT) {
-          setError(
-            `You already have ${HIGHLIGHTED_LIMIT} highlighted projects. Un-highlight one first before adding another.`,
-          );
-          return;
-        }
-      } catch (err) {
-        setError(err.message || "Could not check the highlighted count.");
-        return;
-      }
-    }
-    setForm((f) => ({ ...f, highlighted: checked }));
-  }
-
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -225,19 +206,6 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
       const missing = validateLive(form, tagsArr, techTagsArr);
       if (missing.length) {
         setError(`Fill in these fields before marking the project Live: ${missing.join(", ")}.`);
-        return;
-      }
-    }
-
-    if (form.highlighted && !project?.highlighted) {
-      try {
-        const count = await fetchHighlightedCount();
-        if (count >= HIGHLIGHTED_LIMIT) {
-          setError(`You already have ${HIGHLIGHTED_LIMIT} highlighted projects. Un-highlight one first.`);
-          return;
-        }
-      } catch (err) {
-        setError(err.message || "Could not check the highlighted count.");
         return;
       }
     }
@@ -422,9 +390,9 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
         <input
           type="checkbox"
           checked={form.highlighted}
-          onChange={(e) => handleHighlightToggle(e.target.checked)}
+          onChange={(e) => setForm((f) => ({ ...f, highlighted: e.target.checked }))}
         />
-        <span>Highlighted (shown in one of the 4 homepage slots)</span>
+        <span>Highlighted (only the first 4, by order, appear in the homepage stack)</span>
       </label>
 
       <details className="admin-details" open={form.status === "live"}>
