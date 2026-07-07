@@ -17,10 +17,6 @@ const SRV = [
     t: "Blockchain & Web3 Delivery",
     d: "Managing blockchain-based platforms and NFT/token systems end-to-end, from smart contract coordination to live product launches.",
   },
-  {
-    t: "Customer Support & Community Ops",
-    d: "Building and running support infrastructure (Zendesk, Discord) and community programs that scale with the product.",
-  },
 ];
 
 export default function Services() {
