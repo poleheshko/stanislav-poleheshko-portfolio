@@ -58,6 +58,7 @@
 }
 .hero .char {
   width: 100%;
+  height: auto;
   display: block;
   transform-origin: 50% 40%;
   will-change: transform;
