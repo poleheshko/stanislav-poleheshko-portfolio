@@ -11,6 +11,14 @@
 .services h2 {
   font-size: clamp(2.8rem, 11vw, 8.5rem);
   text-align: center;
+  margin-bottom: 8px;
+}
+.services-subhead {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #55555c;
   margin-bottom: 50px;
 }
 .srv {

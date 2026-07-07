@@ -2,24 +2,24 @@ import "./Services.css";
 
 const SRV = [
   {
-    t: "3D Modeling",
-    d: "Creation of detailed objects, characters, or environments tailored to specific client needs. Ideal for games, products, and visualizations.",
+    t: "Delivery & Project Management",
+    d: "End-to-end coordination of parallel projects across Art, Dev and QA teams, using Agile/Scrum methodologies to keep delivery on track under limited resources.",
   },
   {
-    t: "3D Rendering",
-    d: "High-quality, photorealistic renders that showcase designs with realistic lighting, textures, and shadows.",
+    t: "Cross-functional Team Leadership",
+    d: "Bridging Product, Engineering and Community teams — translating business vision into executable requirements and keeping everyone aligned.",
   },
   {
-    t: "3D Animation",
-    d: "Dynamic animations to bring characters, products, or environments to life for marketing, gaming, or storytelling.",
+    t: "AI & Process Automation",
+    d: "Designing and deploying AI-driven tools (LLM-based support agents, automation workflows) that reduce manual workload and improve resolution times.",
   },
   {
-    t: "Product Design",
-    d: "Precise 3D modeling and rendering for showcasing or prototyping consumer products.",
+    t: "Blockchain & Web3 Delivery",
+    d: "Managing blockchain-based platforms and NFT/token systems end-to-end, from smart contract coordination to live product launches.",
   },
   {
-    t: "3D Printing Models",
-    d: "Custom 3D designs prepared and optimized for 3D printing technology.",
+    t: "Customer Support & Community Ops",
+    d: "Building and running support infrastructure (Zendesk, Discord) and community programs that scale with the product.",
   },
 ];
 
@@ -27,7 +27,8 @@ export default function Services() {
   return (
     <section className="services" id="services">
       <div className="wrap">
-        <h2 className="display d-3d-dark reveal">SERVICES</h2>
+        <h2 className="display d-3d-dark reveal">HOW I DELIVER</h2>
+        <p className="services-subhead reveal">What I Bring to a Team</p>
         <div>
           {SRV.map((s, i) => (
             <div
