@@ -55,7 +55,10 @@ body {
   background: var(--black);
   color: var(--white);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  /* clip (not hidden) so it doesn't establish a scroll container — hidden
+     would break `position: sticky` on descendants (the project stack cards);
+     clip performs the same horizontal clipping without that side effect. */
+  overflow-x: clip;
 }
 a {
   color: inherit;

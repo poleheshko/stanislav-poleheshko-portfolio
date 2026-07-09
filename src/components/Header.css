@@ -8,7 +8,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(1280px, 90vw);
+  width: min(1180px, 92vw);
   padding: 9px 20px;
   border-radius: 999px;
   background: transparent;
@@ -18,7 +18,9 @@ nav {
     border-color 0.4s ease,
     top 0.4s ease,
     box-shadow 0.4s ease,
-    backdrop-filter 0.4s ease;
+    backdrop-filter 0.4s ease,
+    opacity 0.35s ease,
+    visibility 0.35s ease;
 }
 nav.scrolled {
   top: 14px;
@@ -26,6 +28,48 @@ nav.scrolled {
   border-color: var(--line);
   backdrop-filter: blur(14px);
   box-shadow: 0 10px 34px rgba(0, 0, 0, 0.32);
+}
+nav.nav-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-16px);
+}
+.scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: rgba(18, 18, 22, 0.7);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+.scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scroll-top-btn:hover {
+  transform: translateY(-2px);
+}
+@media (max-width: 860px) {
+  .scroll-top-btn {
+    display: none;
+  }
 }
 nav a {
   font-size: 0.76rem;

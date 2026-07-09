@@ -65,6 +65,24 @@
   outline: none;
   border-color: #9046e8;
 }
+.field.consent label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  color: #55555c;
+  cursor: pointer;
+}
+.field.consent input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  accent-color: #9046e8;
+  cursor: pointer;
+}
 .form .send {
   grid-column: 1/-1;
   justify-self: stretch;
@@ -96,38 +114,4 @@
 .send-btn.sent {
   background: var(--grad);
   color: #fff;
-}
-.c-obj {
-  position: absolute;
-  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.22));
-  z-index: 1;
-  animation: floaty 7s ease-in-out infinite;
-}
-.c-obj svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.c-bolt {
-  right: 3%;
-  top: 6%;
-  width: 120px;
-  animation-duration: 6s;
-  transform: rotate(8deg);
-}
-.c-knot {
-  left: 1%;
-  top: 42%;
-  width: 130px;
-  animation-duration: 8s;
-  animation-delay: -1.5s;
-}
-@media (max-width: 860px) {
-  .c-obj {
-    width: 74px !important;
-  }
-  .c-knot {
-    top: auto;
-    bottom: 4%;
-  }
 }

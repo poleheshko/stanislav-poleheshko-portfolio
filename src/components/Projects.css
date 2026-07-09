@@ -13,6 +13,10 @@
   font-size: clamp(2.8rem, 11vw, 8.5rem);
   text-align: center;
   margin-bottom: 46px;
+  position: sticky;
+  top: 24px;
+  z-index: 5;
+  background: var(--black);
 }
 .proj-list {
   display: flex;

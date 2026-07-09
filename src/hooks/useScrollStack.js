@@ -32,22 +32,37 @@ export function useScrollStack(containerRef, ready = true) {
     if (!scroller) return;
     const cards = Array.from(scroller.querySelectorAll(".scroll-stack-card"));
     if (!cards.length) return;
-    const endEl = scroller.querySelector(".scroll-stack-end");
     const lastTransforms = new Map();
     let ticking = false;
 
+    // Pin each card with real CSS `position: sticky` instead of a JS-driven
+    // translateY. The old approach recomputed a counter-translate every frame
+    // to keep the card glued to the viewport — fine under Lenis (which drives
+    // scroll in rAF, so scroll and transform paint together) but it visibly
+    // juddered when dragging the native scrollbar, because the browser scrolls
+    // on the compositor thread while our transform lags a frame behind on the
+    // main thread. Sticky is handled by the compositor, so the pin now tracks
+    // ANY scroll input — wheel, trackpad, scrollbar drag — with zero lag.
+    // JS is left to animate only the scale (see update()); a one-frame scale
+    // lag is imperceptible because it doesn't move the card's position.
     cards.forEach((card, i) => {
       if (i < cards.length - 1) card.style.marginBottom = cfg.itemDistance + "px";
-      card.style.willChange = "transform, filter";
+      card.style.willChange = "transform";
       card.style.transformOrigin = "top center";
       card.style.backfaceVisibility = "hidden";
+      card.style.position = "sticky";
+      // stackPosition is a fraction of the viewport; each successive card pins
+      // itemStackDistance px lower so they fan into a stack as they collect.
+      card.style.top = `calc(${cfg.stackPosition * 100}vh + ${cfg.itemStackDistance * i}px)`;
+      // later cards paint over earlier ones as they stack on top
+      card.style.zIndex = String(i + 1);
     });
 
     // Measure a card's LAYOUT top by walking the offsetParent chain.
-    // offsetTop is unaffected by CSS transforms, whereas
-    // getBoundingClientRect() includes the translateY/scale we apply each
-    // frame — reading that back would feed our own transform into the next
-    // frame's math, making the cards fight the scroll and stutter.
+    // offsetTop is unaffected by CSS transforms and by position: sticky,
+    // whereas getBoundingClientRect() would include the per-frame scale (and
+    // the sticky shift) — reading that back would feed our own output into the
+    // next frame's math, making the scale progress oscillate.
     const layoutTop = (el) => {
       let y = 0;
       for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
@@ -55,59 +70,37 @@ export function useScrollStack(containerRef, ready = true) {
     };
     const progress = (s, a, b) => (s < a ? 0 : s > b ? 1 : (s - a) / (b - a));
 
+    // Position is handled entirely by `position: sticky`; here we only animate
+    // each card's scale as it approaches its pin point, so the stack "settles"
+    // as cards collect. No translateY — that's what used to judder.
     function update() {
       ticking = false;
       const scrollTop = window.scrollY;
       const vh = window.innerHeight;
       const stackPx = cfg.stackPosition * vh;
       const scaleEndPx = cfg.scaleEndPosition * vh;
-      const endTop = endEl ? layoutTop(endEl) : 0;
 
       cards.forEach((card, i) => {
         const cardTop = layoutTop(card);
         const triggerStart = cardTop - stackPx - cfg.itemStackDistance * i;
         const triggerEnd = cardTop - scaleEndPx;
-        const pinStart = triggerStart;
-        const pinEnd = endTop - vh / 2;
 
         const sp = progress(scrollTop, triggerStart, triggerEnd);
         const targetScale = cfg.baseScale + i * cfg.itemScale;
         const scale = 1 - sp * (1 - targetScale);
         const rotation = cfg.rotationAmount ? i * cfg.rotationAmount * sp : 0;
 
-        let blur = 0;
-        if (cfg.blurAmount) {
-          let topIdx = 0;
-          for (let j = 0; j < cards.length; j++) {
-            const jStart = layoutTop(cards[j]) - stackPx - cfg.itemStackDistance * j;
-            if (scrollTop >= jStart) topIdx = j;
-          }
-          if (i < topIdx) blur = Math.max(0, (topIdx - i) * cfg.blurAmount);
-        }
-
-        let translateY = 0;
-        if (scrollTop >= pinStart && scrollTop <= pinEnd) {
-          translateY = scrollTop - cardTop + stackPx + cfg.itemStackDistance * i;
-        } else if (scrollTop > pinEnd) {
-          translateY = pinEnd - cardTop + stackPx + cfg.itemStackDistance * i;
-        }
-
         const nt = {
-          translateY: Math.round(translateY * 100) / 100,
           scale: Math.round(scale * 1000) / 1000,
           rotation: Math.round(rotation * 100) / 100,
-          blur: Math.round(blur * 100) / 100,
         };
         const lt = lastTransforms.get(i);
         const changed =
           !lt ||
-          Math.abs(lt.translateY - nt.translateY) > 0.1 ||
           Math.abs(lt.scale - nt.scale) > 0.001 ||
-          Math.abs(lt.rotation - nt.rotation) > 0.1 ||
-          Math.abs(lt.blur - nt.blur) > 0.1;
+          Math.abs(lt.rotation - nt.rotation) > 0.1;
         if (changed) {
-          card.style.transform = `translate3d(0, ${nt.translateY}px, 0) scale(${nt.scale}) rotate(${nt.rotation}deg)`;
-          card.style.filter = nt.blur > 0 ? `blur(${nt.blur}px)` : "";
+          card.style.transform = `scale(${nt.scale}) rotate(${nt.rotation}deg)`;
           lastTransforms.set(i, nt);
         }
       });

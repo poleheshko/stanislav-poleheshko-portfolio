@@ -113,10 +113,13 @@ export default function Projects({ projects, loading, error, onOpenCaseStudy, on
               <StackCard key={p.id} project={p} index={i} onOpen={onOpenCaseStudy} />
             ))}
             <ViewAllCard hiddenCount={hiddenCount} onOpen={onOpenAllProjects} />
-            <div className="scroll-stack-end"></div>
           </div>
         )}
       </div>
+      {/* Lives outside .wrap so the sticky "PROJECTS" title's containing
+          block ends right after the last card, releasing the pin here
+          instead of staying stuck through this scroll-room spacer. */}
+      {!loading && !error && <div className="scroll-stack-end"></div>}
     </section>
   );
 }
