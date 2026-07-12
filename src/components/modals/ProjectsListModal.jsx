@@ -7,8 +7,8 @@ function MiniCard({ project, index, onOpen }) {
   return (
     <div
       className={`proj-mini${isLive ? "" : " soon"}`}
-      data-live={isLive ? "1" : undefined}
-      onClick={isLive ? () => onOpen(project) : undefined}
+      data-live="1"
+      onClick={() => onOpen(project)}
     >
       <div className="ss-top">
         <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
@@ -35,20 +35,18 @@ function MiniCard({ project, index, onOpen }) {
           ))}
         </div>
       )}
-      {(isLive || project.employer?.logoUrl) && (
-        <div className="proj-mini-foot">
-          {isLive && <span className="ss-cta live-cta">View case study →</span>}
-          {project.employer?.logoUrl && (
-            <img
-              className="proj-mini-employer-mark"
-              src={project.employer.logoUrl}
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-          )}
-        </div>
-      )}
+      <div className="proj-mini-foot">
+        <span className="ss-cta live-cta">View case study →</span>
+        {project.employer?.logoUrl && (
+          <img
+            className="proj-mini-employer-mark"
+            src={project.employer.logoUrl}
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        )}
+      </div>
     </div>
   );
 }
