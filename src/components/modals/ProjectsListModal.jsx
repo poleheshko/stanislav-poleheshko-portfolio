@@ -18,36 +18,36 @@ function MiniCard({ project, index, onOpen }) {
       </div>
       <div className="nm">{project.name}</div>
       <div className="tl">
-        {isLive ? project.tagline : "Case study in progress"}
+        {project.tagline || "Case study in progress"}
       </div>
-      {isLive && project.teamBadge && (
+      {project.teamBadge && (
         <div className="ss-role proj-mini-role">
           <span className="ss-role-label">Role</span>
           <span className="ss-badge live">{project.teamBadge}</span>
         </div>
       )}
-      {isLive && (
-        <>
-          <div className="ss-tags">
-            {project.tags.map((t) => (
-              <span className="ss-tag" key={t}>
-                {t}
-              </span>
-            ))}
-          </div>
-          <div className="proj-mini-foot">
-            <span className="ss-cta live-cta">View case study →</span>
-            {project.employer?.logoUrl && (
-              <img
-                className="proj-mini-employer-mark"
-                src={project.employer.logoUrl}
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-            )}
-          </div>
-        </>
+      {project.tags?.length > 0 && (
+        <div className="ss-tags">
+          {project.tags.map((t) => (
+            <span className="ss-tag" key={t}>
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
+      {(isLive || project.employer?.logoUrl) && (
+        <div className="proj-mini-foot">
+          {isLive && <span className="ss-cta live-cta">View case study →</span>}
+          {project.employer?.logoUrl && (
+            <img
+              className="proj-mini-employer-mark"
+              src={project.employer.logoUrl}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+        </div>
       )}
     </div>
   );
