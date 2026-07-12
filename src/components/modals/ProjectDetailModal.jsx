@@ -166,14 +166,16 @@ export function CaseStudyContent({ project }) {
           ))}
         </div>
       </div>
-      <div className="cs-section">
-        <div className="h">Testimonial</div>
-        <div className="cs-testimonial">
-          <div className="quote-mark">"</div>
-          <p>{testimonial.quote}</p>
-          <div className="by">— {testimonial.by}</div>
+      {testimonial.quote?.trim() && (
+        <div className="cs-section">
+          <div className="h">Testimonial</div>
+          <div className="cs-testimonial">
+            <div className="quote-mark">"</div>
+            <p>{testimonial.quote}</p>
+            {testimonial.by?.trim() && <div className="by">— {testimonial.by}</div>}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
