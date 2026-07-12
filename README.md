@@ -54,10 +54,23 @@ backfills any existing single image). **Without it, saving a project from the ad
 fail** with a "column images does not exist" error. Fresh installs from `schema.sql` already
 include this column and don't need the migration.
 
+### Already set up before "testimonials"?
+
+If your database was created before the testimonials feature existed, run
+`supabase/add_testimonials.sql` once in the SQL Editor. It adds the `testimonials` table (and its
+Row Level Security policies). **Without it, the Testimonials tab in the admin panel will fail to
+load or save.** Fresh installs from `schema.sql` already include this table and don't need the
+migration.
+
 ## Admin panel
 
 - `/admin/login` — sign in (email + password, plus a TOTP code if 2FA is enabled)
-- `/admin/dashboard` — manage projects (add/edit/delete/reorder/highlight) and 2FA, once signed in
+- `/admin/dashboard` — manage projects (add/edit/delete/reorder/highlight), employers, testimonials
+  and 2FA, once signed in
+
+The **Testimonials** tab manages the quotes shown in the homepage "What Colleagues Are Saying"
+section (name, role/position, photo, a profile link such as LinkedIn, and the quote itself). The
+whole section is hidden on the homepage while there are zero testimonials.
 
 Any number of projects can be marked "Highlighted" — all of them show in the homepage's project
 stack. Projects can be reordered with the ↑/↓ buttons; the order also controls the "All Projects"

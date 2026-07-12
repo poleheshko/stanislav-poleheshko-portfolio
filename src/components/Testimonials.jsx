@@ -1,64 +1,73 @@
+import { useEffect, useRef, useState } from "react";
 import "./Testimonials.css";
 
-const TEST = [
-  {
-    t: "Alex's 3D modeling completely transformed our product visuals. The detail and realism exceeded every expectation.",
-    n: "Dr. Eugenia E.",
-    r: "Medtech Visuals",
-  },
-  {
-    t: "Working with Alex was seamless. The animations brought our brand story to life in a way we never imagined.",
-    n: "Michael T.",
-    r: "Forwardpath Innovations",
-  },
-  {
-    t: "Alex's 3D character work added so much personality. Responsiveness and quality were outstanding.",
-    n: "David R.",
-    r: "Apex Interactive",
-  },
-  {
-    t: "Incredible attention to detail. The renders looked so real our clients thought they were photographs.",
-    n: "Sarah K.",
-    r: "Lumen Studio",
-  },
-  {
-    t: "The product design renders helped us secure funding. Alex understood exactly what we needed.",
-    n: "Dr. Susana V.",
-    r: "Medtech Visuals",
-  },
-  {
-    t: "The 3D prototypes Alex created were pixel-perfect for pitching. Precision and care in every detail.",
-    n: "James R.",
-    r: "Innovatepro Design",
-  },
-  {
-    t: "Fast, communicative, and wildly talented. Our launch visuals were absolutely unforgettable.",
-    n: "Olivia M.",
-    r: "Northwind Creative",
-  },
-  {
-    t: "The 3D render Alex produced for our campaign added a dynamic edge. The results were beyond impressive.",
-    n: "Daniel P.",
-    r: "Bright Studio",
-  },
-  {
-    t: "A true craftsman. Every revision improved the work and the final delivery blew us away.",
-    n: "Priya N.",
-    r: "Form & Function",
-  },
-];
+// Builds up to two uppercase initials from a name, for the avatar fallback when
+// a testimonial has no photo.
+function initialsOf(name) {
+  return (name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+}
 
 export default function Testimonials() {
+  const [items, setItems] = useState([]);
+  const sectionRef = useRef(null);
+
+  // Fetched separately from projects (its own tiny query). The Supabase client
+  // is dynamically imported so it stays off the homepage's critical path,
+  // mirroring useProjects.
+  useEffect(() => {
+    let active = true;
+    import("../lib/testimonials")
+      .then(({ fetchTestimonials }) => fetchTestimonials())
+      .then((data) => {
+        if (active) setItems(data);
+      })
+      .catch(() => {
+        // On error we leave the section hidden rather than showing an empty shell.
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // The global useRevealOnScroll observer scans the DOM once on mount, before
+  // these cards exist (they arrive async). Run a local observer so they still
+  // fade in as they enter the viewport.
+  useEffect(() => {
+    if (!items.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    sectionRef.current?.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [items]);
+
+  // Hidden entirely when there are no testimonials yet.
+  if (!items.length) return null;
+
   const cols = [[], [], []];
-  TEST.forEach((t, i) => cols[i % 3].push(t));
+  items.forEach((t, i) => cols[i % 3].push(t));
 
   return (
-    <section className="testi" id="testimonials">
+    <section className="testi" id="testimonials" ref={sectionRef}>
       <div className="wrap">
         <h2 className="display chrome reveal">
-          What Clients
+          What Colleagues
           <br />
-          Are Saying <span className="emo">🤩</span>
+          Are Saying
         </h2>
         <div className="tcols">
           {cols.map((col, ci) => (
@@ -68,21 +77,50 @@ export default function Testimonials() {
                 return (
                   <div
                     className="tcard reveal"
-                    key={t.n}
+                    key={t.id}
                     style={{ transitionDelay: `${i * 0.07 + ci * 0.05}s` }}
                   >
-                    <p>{t.t}</p>
+                    <p>{t.quote}</p>
                     <div className="who">
-                      <div
-                        className="av"
-                        style={{
-                          background: `linear-gradient(135deg,hsl(${hue},45%,60%),hsl(${(hue + 40) % 360},45%,40%))`,
-                        }}
-                      ></div>
-                      <div>
-                        <div className="nm">{t.n}</div>
-                        <div className="ro">{t.r}</div>
+                      {t.photoUrl ? (
+                        <div
+                          className="av"
+                          style={{ backgroundImage: `url(${t.photoUrl})` }}
+                        ></div>
+                      ) : (
+                        <div
+                          className="av av-fallback"
+                          style={{
+                            background: `linear-gradient(135deg,hsl(${hue},45%,60%),hsl(${(hue + 40) % 360},45%,40%))`,
+                          }}
+                        >
+                          {initialsOf(t.authorName)}
+                        </div>
+                      )}
+                      <div className="who-txt">
+                        <div className="nm">{t.authorName}</div>
+                        {t.authorRole && <div className="ro">{t.authorRole}</div>}
                       </div>
+                      {t.linkUrl && (
+                        <a
+                          className="who-link"
+                          href={t.linkUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${t.authorName} — profile`}
+                        >
+                          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M7 17 17 7M9 7h8v8"
+                            />
+                          </svg>
+                        </a>
+                      )}
                     </div>
                   </div>
                 );

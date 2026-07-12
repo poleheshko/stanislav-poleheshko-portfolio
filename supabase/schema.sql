@@ -29,6 +29,20 @@ create table if not exists public.employers (
   created_at timestamptz not null default now()
 );
 
+-- Testimonials shown on the homepage (quotes from colleagues and managers).
+-- Standalone table — not linked to projects.
+create table if not exists public.testimonials (
+  id uuid primary key default gen_random_uuid(),
+  quote text not null,
+  author_name text not null,
+  author_role text,
+  photo_url text,
+  photo_path text,
+  link_url text,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
   status text not null default 'soon' check (status in ('live', 'soon')),
@@ -109,6 +123,7 @@ values
 
 alter table public.projects enable row level security;
 alter table public.employers enable row level security;
+alter table public.testimonials enable row level security;
 
 -- Public read — the homepage fetches projects with the anon key, no session.
 create policy "Public can read projects"
@@ -136,6 +151,29 @@ create policy "Admin can update employers"
 
 create policy "Admin can delete employers"
   on public.employers for delete
+  to authenticated
+  using (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
+
+-- Testimonials are read by the public homepage and written only by the admin —
+-- same policy shape as employers.
+create policy "Public can read testimonials"
+  on public.testimonials for select
+  to anon, authenticated
+  using (true);
+
+create policy "Admin can insert testimonials"
+  on public.testimonials for insert
+  to authenticated
+  with check (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
+
+create policy "Admin can update testimonials"
+  on public.testimonials for update
+  to authenticated
+  using (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid)
+  with check (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
+
+create policy "Admin can delete testimonials"
+  on public.testimonials for delete
   to authenticated
   using (auth.uid() = '5b3ee7ed-9270-4c96-8adb-eddf545543f0'::uuid);
 
