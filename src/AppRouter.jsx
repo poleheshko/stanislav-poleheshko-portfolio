@@ -14,7 +14,17 @@ export default function AppRouter() {
   return (
     <Suspense fallback={<div className="route-loading">Loading…</div>}>
       <Routes>
-        <Route path="/" element={<App />} />
+        {/* The homepage stays mounted across "/", "/projects" and
+            "/projects/:slug" because they are children of one pathless layout
+            route whose element is <App />. Navigating between them only changes
+            the URL — App is never remounted, so projects aren't refetched and
+            the scroll position/animations survive. App reads the URL to decide
+            which project modal is open. */}
+        <Route element={<App />}>
+          <Route path="/" element={null} />
+          <Route path="/projects" element={null} />
+          <Route path="/projects/:slug" element={null} />
+        </Route>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
         <Route
