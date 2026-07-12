@@ -261,6 +261,13 @@ html.lenis body {
   border: 1px solid var(--line-strong);
   color: var(--muted);
 }
+/* Prototype: a distinct amber badge — clearly a third, active state, never the
+   greyed-out "Coming soon" look. */
+.ss-badge.proto {
+  background: rgba(240, 180, 90, 0.16);
+  border: 1px solid rgba(240, 180, 90, 0.5);
+  color: #ffe2b0;
+}
 .ss-meta {
   margin-top: clamp(18px, 3vw, 28px);
 }

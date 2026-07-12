@@ -45,7 +45,7 @@ create table if not exists public.testimonials (
 
 create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
-  status text not null default 'soon' check (status in ('live', 'soon')),
+  status text not null default 'soon' check (status in ('live', 'prototype', 'soon')),
   name text not null,
   tagline text,
   team_badge text,

@@ -281,6 +281,7 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
           <span>Status</span>
           <select {...field("status")}>
             <option value="soon">Coming soon</option>
+            <option value="prototype">Prototype</option>
             <option value="live">Live</option>
           </select>
         </label>
@@ -397,7 +398,7 @@ export default function ProjectForm({ project, nextSortOrder, onSaved, onCancel 
         <span>Highlighted (shown in the homepage stack)</span>
       </label>
 
-      <details className="admin-details" open={form.status === "live"}>
+      <details className="admin-details" open={form.status !== "soon"}>
         <summary>Case study details</summary>
 
         <div className="admin-form-grid">

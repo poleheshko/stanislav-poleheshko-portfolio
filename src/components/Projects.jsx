@@ -3,18 +3,21 @@ import "./Projects.css";
 import { useScrollStack } from "../hooks/useScrollStack";
 
 export function StackCard({ project, index, onOpen }) {
-  const isLive = project.status === "live";
+  // "Live" and "prototype" projects both render as fully active cards
+  // (clickable, full content, opens the case study); only a genuine "soon"
+  // placeholder gets the deactivated treatment.
+  const isActive = project.status === "live" || project.status === "prototype";
   return (
     <div
-      className={`scroll-stack-card ${isLive ? "is-live" : "is-soon"}`}
-      onClick={isLive ? () => onOpen(project) : undefined}
+      className={`scroll-stack-card ${isActive ? "is-live" : "is-soon"}`}
+      onClick={isActive ? () => onOpen(project) : undefined}
     >
       <div className="ss-inner">
         <div className="ss-split">
           <div className="ss-left">
             <div className="ss-top">
               <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
-              {isLive ? (
+              {isActive ? (
                 <div className="ss-role">
                   <span className="ss-role-label">Role</span>
                   <div className="ss-badge live">{project.teamBadge}</div>
@@ -26,9 +29,9 @@ export function StackCard({ project, index, onOpen }) {
             <div className="ss-meta">
               <div className="nm">{project.name}</div>
               <div className="tl">
-                {isLive ? project.tagline : "Case study in progress"}
+                {isActive ? project.tagline : "Case study in progress"}
               </div>
-              {isLive && project.tags.length > 0 && (
+              {isActive && project.tags.length > 0 && (
                 <div className="ss-tags">
                   {project.tags.map((t) => (
                     <span className="ss-tag" key={t}>
@@ -38,7 +41,7 @@ export function StackCard({ project, index, onOpen }) {
                 </div>
               )}
             </div>
-            {isLive ? (
+            {isActive ? (
               <>
                 <div className="ss-divider"></div>
                 <div className="ss-foot-row">
@@ -53,15 +56,15 @@ export function StackCard({ project, index, onOpen }) {
               <span className="ss-cta soon-cta">Coming soon</span>
             )}
           </div>
-          <div className={`ss-right ${isLive ? "live" : "soon"}`}>
+          <div className={`ss-right ${isActive ? "live" : "soon"}`}>
             {project.imageUrl ? (
               <div className="ss-shot" style={{ backgroundImage: `url(${project.imageUrl})` }} />
             ) : (
               <span>
-                {isLive ? "product preview — emily ui" : "case study in progress"}
+                {isActive ? "product preview — emily ui" : "case study in progress"}
               </span>
             )}
-            {isLive && project.employer?.logoUrl && (
+            {isActive && project.employer?.logoUrl && (
               <div className="ss-shot-employer-badge">
                 <img src={project.employer.logoUrl} alt={project.employer.name} loading="lazy" decoding="async" />
               </div>
