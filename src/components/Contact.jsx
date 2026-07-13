@@ -1,10 +1,13 @@
 import { useState } from "react";
 import "./Contact.css";
 
-export default function Contact() {
-  const [status, setStatus] = useState("idle"); // idle | missing | sent
+// Formspree endpoint, e.g. https://formspree.io/f/xxxxxxxx — set in .env.
+const FORM_ENDPOINT = import.meta.env.VITE_CONTACT_FORM_ENDPOINT;
 
-  function handleSubmit(e) {
+export default function Contact() {
+  const [status, setStatus] = useState("idle"); // idle | missing | sending | sent | error
+
+  async function handleSubmit(e) {
     e.preventDefault();
     const f = e.target;
     if (!f.name.value || !f.email.value || !f.consent.checked) {
@@ -12,19 +15,44 @@ export default function Contact() {
       setTimeout(() => setStatus("idle"), 1600);
       return;
     }
-    setStatus("sent");
-    setTimeout(() => {
-      setStatus("idle");
+
+    if (!FORM_ENDPOINT) {
+      console.error(
+        "Missing VITE_CONTACT_FORM_ENDPOINT. Copy .env.example to .env and set your Formspree form endpoint.",
+      );
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(f),
+      });
+      if (!res.ok) throw new Error(`Formspree responded ${res.status}`);
+      setStatus("sent");
       f.reset();
-    }, 2400);
+      setTimeout(() => setStatus("idle"), 2400);
+    } catch (err) {
+      console.error("Contact form submission failed:", err);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+    }
   }
 
   const btnLabel =
     status === "missing"
       ? "Fill required fields"
-      : status === "sent"
-        ? "Message Sent ✓"
-        : "Send";
+      : status === "sending"
+        ? "Sending…"
+        : status === "sent"
+          ? "Message Sent ✓"
+          : status === "error"
+            ? "Something went wrong — try again"
+            : "Send";
 
   return (
     <section className="contact" id="contact">
@@ -69,6 +97,7 @@ export default function Contact() {
             <button
               type="submit"
               className={`btn send-btn${status === "sent" ? " sent" : ""}`}
+              disabled={status === "sending"}
             >
               {btnLabel}
             </button>

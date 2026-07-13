@@ -115,3 +115,9 @@
   background: var(--grad);
   color: #fff;
 }
+.send-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
