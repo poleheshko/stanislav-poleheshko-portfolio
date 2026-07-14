@@ -29,6 +29,12 @@
     max-width: 320px;
     text-align: center;
   }
+  .hero-row .btn,
+  .about .btn-figma-cta {
+    width: 168px;
+    height: 54px;
+    font-size: 0.78rem;
+  }
 }
 /* In the stacked hero, a short window leaves no room between the CTA button
    and the bottom edge — the scroll cue would overlap the button. */
