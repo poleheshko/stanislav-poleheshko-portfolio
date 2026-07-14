@@ -5,17 +5,11 @@ import "./ProjectsListModal.css";
 function MiniCard({ project, index, onOpen }) {
   const isLive = project.status === "live";
   const isPrototype = project.status === "prototype";
-  // Only a genuine "soon" placeholder is dimmed; a prototype reads as a normal,
-  // active card (just with its own amber badge).
-  const isSoon = !isLive && !isPrototype;
+  // Every status renders as the same full-color card; only the badge differs.
   const badgeClass = isLive ? "live" : isPrototype ? "proto" : "soon";
   const badgeLabel = isLive ? "Live" : isPrototype ? "Prototype" : "Coming Soon";
   return (
-    <div
-      className={`proj-mini${isSoon ? " soon" : ""}`}
-      data-live="1"
-      onClick={() => onOpen(project)}
-    >
+    <div className="proj-mini" data-live="1" onClick={() => onOpen(project)}>
       <div className="ss-top">
         <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
         <div className={`ss-badge ${badgeClass}`}>{badgeLabel}</div>

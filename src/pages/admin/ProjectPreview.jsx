@@ -57,7 +57,7 @@ function buildPreviewProject(form, images, employer) {
 
 export default function ProjectPreview({ form, images, employer }) {
   const project = buildPreviewProject(form, images, employer);
-  const isLive = project.status === "live";
+  const isSoon = project.status !== "live" && project.status !== "prototype";
 
   return (
     <div className="admin-preview-section">
@@ -68,10 +68,10 @@ export default function ProjectPreview({ form, images, employer }) {
             <StackCard project={project} index={0} onOpen={() => {}} />
           </div>
         </div>
-        {!isLive && (
+        {isSoon && (
           <div className="admin-preview-note">
-            Status is “Coming soon” — the tagline, tags, and metric stay hidden on the
-            homepage card until you switch this project to Live.
+            Status is “Coming soon” — the card renders exactly like a live one, just
+            with a “Coming Soon” badge next to the role.
           </div>
         )}
       </div>

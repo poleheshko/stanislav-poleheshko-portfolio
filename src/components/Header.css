@@ -68,7 +68,8 @@ nav.nav-hidden {
 }
 @media (max-width: 860px) {
   .scroll-top-btn {
-    display: none;
+    bottom: 18px;
+    right: 18px;
   }
 }
 nav a {

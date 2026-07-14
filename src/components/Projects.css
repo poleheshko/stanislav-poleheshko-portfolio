@@ -132,9 +132,6 @@ html.lenis body {
 .scroll-stack-card:hover {
   border-color: var(--line-strong);
 }
-.scroll-stack-card.is-soon {
-  cursor: default;
-}
 .ss-inner {
   position: relative;
   z-index: 1;
@@ -204,9 +201,6 @@ html.lenis body {
     #101014 24px
   );
 }
-.ss-right.soon {
-  background: var(--card-2);
-}
 .ss-right span {
   font-size: 0.62rem;
   font-weight: 700;
@@ -258,8 +252,9 @@ html.lenis body {
   color: #e7d8ff;
 }
 .ss-badge.soon {
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--line-strong);
-  color: var(--muted);
+  color: #d9d9e0;
 }
 /* Prototype: a distinct amber badge — clearly a third, active state, never the
    greyed-out "Coming soon" look. */
@@ -340,10 +335,6 @@ html.lenis body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-.ss-cta.soon-cta {
-  color: var(--muted);
-  margin-top: auto;
 }
 /* Below this width a full-height 16:9 image would crush the text column, so
    stack the card: full-width 16:9 image banner on top, text below. The card

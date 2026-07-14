@@ -19,25 +19,26 @@ export default function Hero() {
     <section className="hero" id="top" ref={heroRef}>
       <div className="wrap hero-inner" ref={innerRef}>
         <h1 className="display" ref={h1Ref}>
-          Hi, I'm Stan
+          <span className="hero-line">Hi, I'm</span>{" "}
+          <span className="hero-line">Stan</span>
         </h1>
-        <div className="char-wrap" ref={photoRef}>
-          <img
-            className="char"
-            ref={charRef}
-            src="/ProfileImageCircle1000x.png"
-            alt="Stan Poleheshko"
-            width="1000"
-            height="1000"
-            decoding="async"
-            fetchPriority="high"
-          />
-        </div>
         <div className="hero-row">
           <p className="blurb">
             A PMP-CERTIFIED PROJECT AND DELIVERY MANAGER WITH A BACKGROUND IN
             GAMING, BLOCKCHAIN AND AI IMPLEMENTATION
           </p>
+          <div className="char-wrap" ref={photoRef}>
+            <img
+              className="char"
+              ref={charRef}
+              src="/ProfileImageCircle1000x.png"
+              alt="Stan Poleheshko"
+              width="1000"
+              height="1000"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </div>
           <a href="#contact" className="btn btn-figma-cta">
             Contact Me
           </a>

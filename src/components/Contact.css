@@ -52,7 +52,10 @@
   border-bottom: 1.5px solid #c6c4be;
   padding: 8px 2px;
   font-family: inherit;
-  font-size: 0.95rem;
+  /* must compute to ≥16px: mobile browsers auto-zoom into any focused control
+     below that, and the zoom sticks after the keyboard closes — the whole
+     section then sits shifted with its right side clipped off-screen */
+  font-size: 1rem;
   color: #16161a;
   transition: border-color 0.3s;
 }

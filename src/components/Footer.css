@@ -7,39 +7,74 @@ footer {
   position: relative;
   z-index: 7;
 }
-.foot-top {
-  display: grid;
-  grid-template-columns: repeat(3, max-content);
+.foot-head {
+  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 30px;
-  padding-bottom: 30px;
+  gap: 40px;
+  padding-bottom: 40px;
 }
-.foot-big {
-  font-size: clamp(2.4rem, 7vw, 4rem);
-  line-height: 0.92;
-  color: transparent;
-  -webkit-text-stroke: 1.6px rgba(255, 255, 255, 0.55);
-  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+.foot-heading {
+  max-width: 560px;
+}
+.foot-name {
+  font-size: clamp(2rem, 3.6vw, 2.9rem);
+  color: #fff;
+  margin-bottom: 22px;
+}
+.foot-tagline {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 440px;
+}
+.foot-cv-btn {
+  flex: none;
+  background: var(--light);
+  color: var(--ink);
+}
+.foot-cv-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+.foot-line {
+  height: 1px;
+  background: var(--line);
+}
+.foot-cols {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 34px 0;
+}
+.foot-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .foot-col h4 {
   font-size: 0.66rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 }
-.foot-col ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-.foot-col li {
-  font-size: 0.86rem;
+.foot-link {
+  font-size: 0.92rem;
   color: #d2d2d8;
+  transition: color 0.2s;
 }
-.foot-col a:hover {
+.foot-link:hover {
   color: #fff;
+}
+.foot-strong {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+}
+.foot-muted {
+  font-size: 0.92rem;
+  color: var(--muted);
 }
 .foot-bottom {
   display: flex;
@@ -47,9 +82,11 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--muted);
-  border-top: 1px solid var(--line);
-  padding-top: 22px;
-  margin-top: 14px;
+  padding-top: 26px;
+}
+.foot-bottom strong {
+  color: #d2d2d8;
+  font-weight: 700;
 }

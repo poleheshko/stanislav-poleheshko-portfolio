@@ -1,37 +1,62 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./Projects.css";
 import { useScrollStack } from "../hooks/useScrollStack";
 
+// Below 1080px the stack cards are content-sized (image banner + text), but
+// the View All card has almost no content, so it would collapse to a short
+// strip among ~540px-tall cards. CSS can't reference a sibling's height, so
+// mirror the height of the card directly above it. The scroll-stack re-reads
+// live offsets every frame, so changing the height here is safe.
+function useMatchViewAllHeight(stackRef, active) {
+  useEffect(() => {
+    if (!active) return;
+    const stack = stackRef.current;
+    const viewall = stack?.querySelector(".ss-viewall");
+    const prev = viewall?.previousElementSibling;
+    if (!viewall || !prev) return;
+    const mq = window.matchMedia("(max-width: 1080px)");
+    const sync = () => {
+      viewall.style.height = mq.matches ? `${prev.offsetHeight}px` : "";
+    };
+    const ro = new ResizeObserver(sync);
+    ro.observe(prev);
+    mq.addEventListener("change", sync);
+    sync();
+    return () => {
+      ro.disconnect();
+      mq.removeEventListener("change", sync);
+    };
+  }, [stackRef, active]);
+}
+
 export function StackCard({ project, index, onOpen }) {
-  // "Live" and "prototype" projects both render as fully active cards
-  // (clickable, full content, opens the case study); only a genuine "soon"
-  // placeholder gets the deactivated treatment.
-  const isActive = project.status === "live" || project.status === "prototype";
+  // Every status renders as the same fully active card (clickable, full
+  // content, opens the case study); a "soon" project only carries an extra
+  // "Coming Soon" badge next to its role.
+  const isSoon = project.status !== "live" && project.status !== "prototype";
   return (
-    <div
-      className={`scroll-stack-card ${isActive ? "is-live" : "is-soon"}`}
-      onClick={isActive ? () => onOpen(project) : undefined}
-    >
+    <div className="scroll-stack-card is-live" onClick={() => onOpen(project)}>
       <div className="ss-inner">
         <div className="ss-split">
           <div className="ss-left">
             <div className="ss-top">
               <div className="ss-num">{String(index + 1).padStart(2, "0")}</div>
-              {isActive ? (
-                <div className="ss-role">
-                  <span className="ss-role-label">Role</span>
-                  <div className="ss-badge live">{project.teamBadge}</div>
-                </div>
-              ) : (
-                <div className="ss-badge soon">Coming Soon</div>
-              )}
+              <div className="ss-role">
+                {isSoon && <div className="ss-badge soon">Coming Soon</div>}
+                {project.teamBadge && (
+                  <>
+                    <span className="ss-role-label">Role</span>
+                    <div className="ss-badge live">{project.teamBadge}</div>
+                  </>
+                )}
+              </div>
             </div>
             <div className="ss-meta">
               <div className="nm">{project.name}</div>
               <div className="tl">
-                {isActive ? project.tagline : "Case study in progress"}
+                {project.tagline || "Case study in progress"}
               </div>
-              {isActive && project.tags.length > 0 && (
+              {project.tags.length > 0 && (
                 <div className="ss-tags">
                   {project.tags.map((t) => (
                     <span className="ss-tag" key={t}>
@@ -41,30 +66,22 @@ export function StackCard({ project, index, onOpen }) {
                 </div>
               )}
             </div>
-            {isActive ? (
-              <>
-                <div className="ss-divider"></div>
-                <div className="ss-foot-row">
-                  <div className="ss-metric">
-                    <span className="val">{project.metric.val}</span>
-                    <span className="lbl">{project.metric.lbl}</span>
-                  </div>
-                  <span className="ss-cta live-cta">View case study →</span>
-                </div>
-              </>
-            ) : (
-              <span className="ss-cta soon-cta">Coming soon</span>
-            )}
+            <div className="ss-divider"></div>
+            <div className="ss-foot-row">
+              <div className="ss-metric">
+                <span className="val">{project.metric.val}</span>
+                <span className="lbl">{project.metric.lbl}</span>
+              </div>
+              <span className="ss-cta live-cta">View case study →</span>
+            </div>
           </div>
-          <div className={`ss-right ${isActive ? "live" : "soon"}`}>
+          <div className="ss-right live">
             {project.imageUrl ? (
               <div className="ss-shot" style={{ backgroundImage: `url(${project.imageUrl})` }} />
             ) : (
-              <span>
-                {isActive ? "product preview — emily ui" : "case study in progress"}
-              </span>
+              <span>product preview — emily ui</span>
             )}
-            {isActive && project.employer?.logoUrl && (
+            {project.employer?.logoUrl && (
               <div className="ss-shot-employer-badge">
                 <img src={project.employer.logoUrl} alt={project.employer.name} loading="lazy" decoding="async" />
               </div>
@@ -101,6 +118,7 @@ export default function Projects({ projects, loading, error, onOpenCaseStudy, on
   const visibleProjects = projects.filter((p) => p.highlighted);
   const hiddenCount = Math.max(0, projects.length - visibleProjects.length);
   useScrollStack(stackRef, !loading);
+  useMatchViewAllHeight(stackRef, !loading && !error);
 
   return (
     <section className="projects" id="projects">

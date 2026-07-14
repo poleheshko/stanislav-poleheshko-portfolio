@@ -59,11 +59,9 @@ export default function Contact() {
       <div className="wrap contact-grid">
         <div className="reveal">
           <h2 className="display d-3d-dark">
-            LET'S
+            LET'S GET
             <br />
-            GET IN
-            <br />
-            TOUCH
+            IN TOUCH
           </h2>
         </div>
         <form className="form reveal d1" noValidate onSubmit={handleSubmit}>

@@ -1,8 +1,10 @@
 /* ============================== HERO ============================== */
 .hero {
   position: relative;
-  height: 100vh;
-  height: 100dvh;
+  /* min- (not fixed) height: on short windows the stacked layout is taller
+     than the viewport — let the hero grow and scroll instead of clipping. */
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,8 +55,9 @@
 .char-wrap {
   position: relative;
   z-index: 3;
-  margin-top: calc(clamp(-130px, -6vw, -56px) + 105px);
-  width: min(380px, 60vw);
+  /* the vh term shrinks the photo on short windows so the heading, blurb and
+     CTA still get room */
+  width: min(380px, 60vw, 45vh);
   animation: floaty 6s ease-in-out infinite;
   filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.6));
 }
@@ -65,24 +68,23 @@
   transform-origin: 50% 40%;
   will-change: transform;
 }
+/* One flex row: blurb | photo | button. The side columns share the same fixed
+   width, so with space-between the photo is exactly centered and both gaps to
+   it are always equal. The negative margin keeps the photo slightly overlapped
+   with the heading at every viewport width. */
 .hero-row {
-  position: absolute;
-  bottom: auto;
-  top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(calc(-50% + 105px));
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 4;
-  pointer-events: auto;
-  gap: 40px;
+  gap: 34px;
   width: 100%;
   padding-inline: 15px;
+  margin-top: clamp(-36px, -2.5vw, -20px);
 }
 .hero-row .blurb {
-  max-width: 240px;
+  width: 220px;
   text-align: left;
   font-size: 0.74rem;
   font-weight: 700;

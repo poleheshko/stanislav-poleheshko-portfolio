@@ -15,9 +15,22 @@ export function useHeroCenterOnPhoto(heroRef, innerRef, photoRef) {
     function center() {
       inner.style.transform = "";
       const heroRect = hero.getBoundingClientRect();
+      const innerRect = inner.getBoundingClientRect();
       const photoRect = photo.getBoundingClientRect();
-      const delta =
+      let delta =
         heroRect.top + heroRect.height / 2 - (photoRect.top + photoRect.height / 2);
+      // On short windows perfect centering would push the group outside the
+      // hero's padding box (heading under the nav / CTA past the fold) —
+      // clamp the shift to whatever slack actually exists.
+      const heroStyles = getComputedStyle(hero);
+      const minDelta =
+        heroRect.top + parseFloat(heroStyles.paddingTop) - innerRect.top;
+      const maxDelta =
+        heroRect.bottom - parseFloat(heroStyles.paddingBottom) - innerRect.bottom;
+      delta =
+        minDelta <= maxDelta
+          ? Math.min(Math.max(delta, minDelta), maxDelta)
+          : 0;
       inner.style.transform = delta ? `translateY(${delta}px)` : "";
     }
 
