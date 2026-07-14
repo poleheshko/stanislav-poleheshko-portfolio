@@ -12,7 +12,12 @@ const STAGGERED_ITEMS = [
   { label: "About", ariaLabel: "Go to about section", link: "#about" },
   { label: "Portfolio", ariaLabel: "Go to portfolio section", link: "#projects" },
   { label: "Contact", ariaLabel: "Go to contact section", link: "#contact" },
-  { label: "Download CV", ariaLabel: "Download CV" },
+  {
+    label: "Download CV",
+    ariaLabel: "Download CV",
+    link: "/Stanislav-Poleheshko-CV.pdf",
+    download: "Stanislav-Poleheshko-CV.pdf",
+  },
 ];
 
 const STAGGERED_SOCIALS = [
@@ -68,12 +73,10 @@ export default function Header() {
           </a>
         ))}
         <a
-          href="#"
+          href="/Stanislav-Poleheshko-CV.pdf"
+          download="Stanislav-Poleheshko-CV.pdf"
           className="hide-sm"
-          onClick={(e) => {
-            e.preventDefault();
-            setOpen(false);
-          }}
+          onClick={() => setOpen(false)}
         >
           Download CV
         </a>

@@ -467,6 +467,7 @@ export default function StaggeredMenu({
                   <a
                     className="sm-panel-item"
                     href={it.link}
+                    download={it.download}
                     aria-label={it.ariaLabel}
                     data-index={idx + 1}
                     onClick={closeMenu}
