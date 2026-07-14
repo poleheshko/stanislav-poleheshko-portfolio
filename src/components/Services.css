@@ -33,9 +33,6 @@
     background 0.3s,
     padding-left 0.3s;
 }
-.srv:last-child {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
-}
 .srv:hover {
   background: rgba(0, 0, 0, 0.03);
   padding-left: 16px;

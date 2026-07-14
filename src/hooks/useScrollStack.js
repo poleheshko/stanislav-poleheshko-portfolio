@@ -129,7 +129,7 @@ export function useScrollStack(containerRef, ready = true) {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
+      touchMultiplier: 1,
       lerp: 0.1,
       syncTouch: true,
       syncTouchLerp: 0.075,
