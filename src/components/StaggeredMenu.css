@@ -317,12 +317,13 @@
 }
 
 @media (max-width: 860px) {
-  .staggered-menu-wrapper {
-    display: none;
+  .staggered-menu-header {
+    opacity: 1;
+    pointer-events: auto;
   }
-}
-
-@media (max-width: 640px) {
+  .staggered-menu-header > * {
+    pointer-events: auto;
+  }
   .staggered-menu-panel,
   .sm-prelayers {
     width: 100%;
