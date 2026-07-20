@@ -341,8 +341,28 @@ html.lenis body {
    height becomes content-driven (the scroll-stack reads each card's live
    offsetTop, so uneven heights are fine). */
 @media (max-width: 1080px) {
+  /* Stacking is disabled below here (see useScrollStack): cards flow as a
+     plain, comfortably-spaced vertical list so nothing pins, overlaps, or
+     gets cut off on a short phone viewport. */
   .scroll-stack-card {
     height: auto;
+  }
+  .scroll-stack {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  /* No pin here, so the section needs neither the trailing scroll-room spacer
+     (see the .scroll-stack-end override after the base rule) nor the desktop's
+     tall bottom padding — trim the empty space below the last card. */
+  .projects {
+    padding-bottom: 56px;
+  }
+  /* A plain list reads better with a heading that scrolls away normally than
+     with the desktop pin-companion title stuck over the cards. */
+  .projects h2 {
+    position: static;
   }
   .ss-split {
     flex-direction: column;
@@ -397,4 +417,12 @@ html.lenis body {
   width: 100%;
   /* scroll room so the last card can pin and release cleanly */
   height: 22vh;
+}
+/* Placed after the base rule (not in the earlier media block) because media
+   queries add no specificity — an override before the base rule would lose the
+   source-order tie and the 22vh spacer would leave a big void under the list. */
+@media (max-width: 1080px) {
+  .scroll-stack-end {
+    height: 0;
+  }
 }

@@ -1,33 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import "./Projects.css";
 import { useScrollStack } from "../hooks/useScrollStack";
-
-// Below 1080px the stack cards are content-sized (image banner + text), but
-// the View All card has almost no content, so it would collapse to a short
-// strip among ~540px-tall cards. CSS can't reference a sibling's height, so
-// mirror the height of the card directly above it. The scroll-stack re-reads
-// live offsets every frame, so changing the height here is safe.
-function useMatchViewAllHeight(stackRef, active) {
-  useEffect(() => {
-    if (!active) return;
-    const stack = stackRef.current;
-    const viewall = stack?.querySelector(".ss-viewall");
-    const prev = viewall?.previousElementSibling;
-    if (!viewall || !prev) return;
-    const mq = window.matchMedia("(max-width: 1080px)");
-    const sync = () => {
-      viewall.style.height = mq.matches ? `${prev.offsetHeight}px` : "";
-    };
-    const ro = new ResizeObserver(sync);
-    ro.observe(prev);
-    mq.addEventListener("change", sync);
-    sync();
-    return () => {
-      ro.disconnect();
-      mq.removeEventListener("change", sync);
-    };
-  }, [stackRef, active]);
-}
 
 export function StackCard({ project, index, onOpen }) {
   // Every status renders as the same fully active card (clickable, full
@@ -118,7 +91,6 @@ export default function Projects({ projects, loading, error, onOpenCaseStudy, on
   const visibleProjects = projects.filter((p) => p.highlighted);
   const hiddenCount = Math.max(0, projects.length - visibleProjects.length);
   useScrollStack(stackRef, !loading);
-  useMatchViewAllHeight(stackRef, !loading && !error);
 
   return (
     <section className="projects" id="projects">
